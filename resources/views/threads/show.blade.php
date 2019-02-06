@@ -7,18 +7,14 @@
                 <div class="card">
                     <header class="card-header">
                         <p class="card-header-title">
-                            Forum Threads
+                            {{$thread->title}}
                         </p>
                     </header>
-                    @foreach($threads as $thread)
                         <div class="card-content">
                             <div class="content">
-                                <h4><a href="{{$thread->path()}}">{{$thread->title}}</a></h4>
                                 <p>{{$thread->body}}</p>
                             </div>
                         </div>
-                        <hr>
-                    @endforeach
                 </div>
             </div>
         </div>

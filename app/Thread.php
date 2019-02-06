@@ -5,16 +5,16 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Thread
+ * App\Thread.
  *
- * @property int $id
- * @property int $user_id
- * @property string $title
- * @property string $body
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies
- * @property-read \App\User $user
+ * @property int                                                   $id
+ * @property int                                                   $user_id
+ * @property string                                                $title
+ * @property string                                                $body
+ * @property \Illuminate\Support\Carbon|null                       $created_at
+ * @property \Illuminate\Support\Carbon|null                       $updated_at
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies
+ * @property \App\User                                             $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread query()
@@ -28,6 +28,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Thread extends Model
 {
+    public function path()
+    {
+        return '/threads/'.$this->id;
+    }
+
     public function replies()
     {
         return $this->hasMany(Reply::class);
