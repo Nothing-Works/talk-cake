@@ -11,6 +11,9 @@
     },
     "devDependencies": {
         "axios": "^0.18.0",
+        "bulma": "^0.7.2",
+        "bulma-checkradio": "^2.1.0",
+        "bulma-helpers": "^0.3.6",
         "cross-env": "^5.2.0",
         "eslint": "^5.13.0",
         "eslint-config-prettier": "^4.0.0",
