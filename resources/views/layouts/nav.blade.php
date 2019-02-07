@@ -12,6 +12,11 @@
             </a>
         </div>
         <div class="navbar-menu" :class="{ 'is-active': show }">
+            <div class="navbar-start">
+                <a href="/threads" class="navbar-item">
+                    All Threads
+                </a>
+            </div>
             <div class="navbar-end">
                 @guest
                     <div class="navbar-item">
