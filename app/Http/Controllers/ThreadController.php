@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel;
 use App\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +52,7 @@ class ThreadController extends Controller
             'title' => $request->input('title'),
             'body' => $request->input('body'),
             'user_id' => Auth::id(),
+            'channel_id' => $request->input('channel_id'),
         ]);
 
         return redirect($thread->path());
@@ -59,11 +61,12 @@ class ThreadController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Channel     $channel
      * @param \App\Thread $thread
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Thread $thread)
+    public function show(Channel $channel, Thread $thread)
     {
         return view('threads.show', compact('thread'));
     }

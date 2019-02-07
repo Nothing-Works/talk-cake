@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Channel;
 use App\Reply;
 use App\Thread;
 use App\User;
@@ -25,7 +26,7 @@ class ThreadTest extends TestCase
 
     public function test_it_has_a_path()
     {
-        $this->assertEquals('/threads/'.$this->thread->id, $this->thread->path());
+        $this->assertEquals('/threads/'.$this->thread->channel->slug.'/'.$this->thread->id, $this->thread->path());
     }
 
     public function test_it_has_a_user()
@@ -43,9 +44,14 @@ class ThreadTest extends TestCase
         $attributes = [
             'body' => $this->faker->paragraph,
             'user_id' => 1,
-            ];
+        ];
         $this->thread->addReply($attributes);
 
         $this->assertDatabaseHas('replies', $attributes);
+    }
+
+    public function test_it_belong_to_a_channel()
+    {
+        $this->assertInstanceOf(Channel::class, $this->thread->channel);
     }
 }

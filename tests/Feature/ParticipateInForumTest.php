@@ -23,7 +23,7 @@ class ParticipateInForumTest extends TestCase
 
     public function test_unauthenticated_user_can_not_add_reply()
     {
-        $this->post('threads/1/replies', [])
+        $this->post('threads/andy/1/replies', [])
             ->assertRedirect('/login');
     }
 }
