@@ -37,4 +37,15 @@ class ThreadTest extends TestCase
     {
         $this->assertContainsOnlyInstancesOf(Reply::class, $this->thread->replies);
     }
+
+    public function test_it_can_add_a_reply()
+    {
+        $attributes = [
+            'body' => $this->faker->paragraph,
+            'user_id' => 1,
+            ];
+        $this->thread->addReply($attributes);
+
+        $this->assertDatabaseHas('replies', $attributes);
+    }
 }

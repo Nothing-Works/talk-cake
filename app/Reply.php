@@ -5,16 +5,17 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Reply
+ * App\Reply.
  *
- * @property int $id
- * @property int $user_id
- * @property int $thread_id
- * @property string $body
+ * @property int                             $id
+ * @property int                             $user_id
+ * @property int                             $thread_id
+ * @property string                          $body
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Thread $thread
- * @property-read \App\User $user
+ * @property \App\Thread                     $thread
+ * @property \App\User                       $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply query()
@@ -28,6 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Reply extends Model
 {
+    protected $guarded = [];
+
     public function user()
     {
         return $this->belongsTo(User::class);
