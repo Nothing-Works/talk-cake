@@ -21,10 +21,9 @@ class ParticipateInForumTest extends TestCase
             ->assertSee($reply->body);
     }
 
-    public function test_unauthenticated_user_can_not_add_reply()//TODO need to revisit
+    public function test_unauthenticated_user_can_not_add_reply()
     {
-        $this->expectException('Illuminate\Auth\AuthenticationException');
-        $this->withoutExceptionHandling();
-        $this->post('threads/1/replies', []);
+        $this->post('threads/1/replies', [])
+            ->assertRedirect('/login');
     }
 }

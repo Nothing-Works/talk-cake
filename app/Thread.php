@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null                       $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies
  * @property \App\User                                             $user
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread query()
