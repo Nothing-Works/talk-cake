@@ -16,7 +16,9 @@
                 <a href="/threads" class="navbar-item">
                     All Threads
                 </a>
-
+                <a href="/threads/create" class="navbar-item">
+                    New Thread
+                </a>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         Channels

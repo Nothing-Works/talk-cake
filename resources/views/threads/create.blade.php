@@ -13,16 +13,29 @@
                         <form action="/threads" method="POST">
                             @csrf
                             <div class="field">
+                                <label class="label" for="channel_id">Choose a Channel</label>
                                 <div class="control">
-                                    <label for="title">Title</label>
-                                    <input id="title" name="title" class="input"/>
+                                    <div class="select">
+                                        <select id="channel_id" name="channel_id" required>
+                                            <option value="">Choose one ...</option>
+                                            @foreach (App\Channel::all() as $channel)
+                                                <option value="{{$channel->id}}" {{old('channel_id')==$channel->id?'selected':''}}>{{$channel->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div class="field">
                                 <div class="control">
-                                    <label for="body">Body</label>
+                                    <label class="label" for="title">Title</label>
+                                    <input id="title" name="title" class="input" value="{{old('title')}}" required/>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <label class="label" for="body">Body</label>
                                     <textarea id="body" name="body" class="textarea"
-                                              placeholder="what is in your mind"></textarea>
+                                              placeholder="what is in your mind" required>{{old('body')}}</textarea>
                                 </div>
                             </div>
                             <div class="field">
@@ -30,6 +43,7 @@
                                     <button type="submit" class="button is-link">Submit</button>
                                 </div>
                             </div>
+                            @include('layouts.errors')
                         </form>
                     </div>
                 </div>
