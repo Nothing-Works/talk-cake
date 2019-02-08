@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Channel;
 use App\Thread;
 use App\User;
 use Tests\TestCase;
@@ -12,11 +13,11 @@ class CreateThreadsTest extends TestCase
     {
         $this->actingAs(factory(User::class)->create());
 
-        $thread = factory(Thread::class)->create();
+        $thread = factory(Thread::class)->make();
 
         $this->post('/threads', $thread->toArray());
 
-        $this->get($thread->path())
+        $this->get($thread->path().'1')
             ->assertSee($thread->title)
             ->assertSee($thread->body);
     }
@@ -31,5 +32,36 @@ class CreateThreadsTest extends TestCase
     {
         $this->get('/threads/create')
             ->assertRedirect('/login');
+    }
+
+    public function test_it_requires_title()
+    {
+        $this->publishThread(['title' => null])
+            ->assertSessionHasErrors('title');
+    }
+
+    public function test_it_requires_channel()
+    {
+        factory(Channel::class, 2)->create();
+        $this->publishThread(['channel_id' => null])
+            ->assertSessionHasErrors('channel_id');
+
+        $this->publishThread(['channel_id' => 999])
+            ->assertSessionHasErrors('channel_id');
+    }
+
+    public function test_it_requires_body()
+    {
+        $this->publishThread(['body' => null])
+            ->assertSessionHasErrors('body');
+    }
+
+    protected function publishThread($overrides = [])
+    {
+        $this->actingAs(factory(User::class)->create());
+
+        $thread = factory(Thread::class)->raw($overrides);
+
+        return $this->post('/threads', $thread);
     }
 }
