@@ -62,7 +62,7 @@ return array(
     |
     */
 
-    'include_helpers' => false,
+    'include_helpers' => true,
 
     'helper_files' => array(
         base_path().'/vendor/laravel/framework/src/Illuminate/Support/helpers.php',
@@ -116,7 +116,7 @@ return array(
             \Illuminate\Auth\SessionGuard::class,
             \Illuminate\Auth\TokenGuard::class,
             \Illuminate\Support\Facades\Auth::class,
-       ],
+        ],
     ),
 
     'magic' => array(
@@ -130,14 +130,14 @@ return array(
             'alert' => 'Monolog\Logger::addAlert',
             'emergency' => 'Monolog\Logger::addEmergency',
         ),
-         /*
-         * @see https://laravel.com/docs/5.2/authentication
-         * @see https://laravel.com/api/5.2/Illuminate/Auth.html
-         * @see \Illuminate\Auth\AuthServiceProvider
-         * @see \Illuminate\Auth\AuthManager::__call
-         * @see \Illuminate\Contracts\Auth\Guard
-         * @see \Illuminate\Contracts\Auth\StatefulGuard
-         */
+        /*
+        * @see https://laravel.com/docs/5.2/authentication
+        * @see https://laravel.com/api/5.2/Illuminate/Auth.html
+        * @see \Illuminate\Auth\AuthServiceProvider
+        * @see \Illuminate\Auth\AuthManager::__call
+        * @see \Illuminate\Contracts\Auth\Guard
+        * @see \Illuminate\Contracts\Auth\StatefulGuard
+        */
         'Auth' => [
             'check' => 'Illuminate\Contracts\Auth\Guard::check',
             'guest' => 'Illuminate\Contracts\Auth\Guard::guest',
@@ -165,8 +165,7 @@ return array(
     |
     */
 
-    'interfaces' => array(
-    ),
+    'interfaces' => array(),
 
     /*
     |--------------------------------------------------------------------------
@@ -194,8 +193,7 @@ return array(
     |  ),
     |
     */
-    'custom_db_types' => array(
-    ),
+    'custom_db_types' => array(),
 
     /*
      |--------------------------------------------------------------------------
@@ -231,8 +229,8 @@ return array(
     | Cast the given "real type" to the given "type".
     |
     */
-   'type_overrides' => array(
+    'type_overrides' => array(
         'integer' => 'int',
         'boolean' => 'bool',
-   ),
+    ),
 );

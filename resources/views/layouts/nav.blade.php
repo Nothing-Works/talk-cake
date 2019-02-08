@@ -13,9 +13,22 @@
         </div>
         <div class="navbar-menu" :class="{ 'is-active': show }">
             <div class="navbar-start">
-                <a href="/threads" class="navbar-item">
-                    All Threads
-                </a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        Browse
+                    </a>
+                    <div class="navbar-dropdown">
+                        <a href="/threads" class="navbar-item">
+                            All Threads
+                        </a>
+                        @auth
+                            <a href="/threads?by={{\Illuminate\Support\Facades\Auth::user()->name}}"
+                               class="navbar-item">
+                                My threads
+                            </a>
+                        @endauth
+                    </div>
+                </div>
                 <a href="/threads/create" class="navbar-item">
                     New Thread
                 </a>
