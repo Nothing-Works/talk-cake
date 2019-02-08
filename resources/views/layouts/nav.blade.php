@@ -16,6 +16,19 @@
                 <a href="/threads" class="navbar-item">
                     All Threads
                 </a>
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        Channels
+                    </a>
+                    <div class="navbar-dropdown">
+                        @foreach(App\Channel::all() as $channel)
+                            <a href="/threads/{{$channel->slug}}" class="navbar-item">
+                                {{$channel->name}}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
             </div>
             <div class="navbar-end">
                 @guest
