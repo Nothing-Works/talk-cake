@@ -25,20 +25,9 @@ class ThreadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Channel $channel = null)
+    public function index(Channel $channel)
     {
-        if (null == $channel) {
-            $threads = Thread::latest();
-        } else {
-            $threads = $channel->threads()->latest();
-        }
-
-        if ($username = request('by')) {
-            $user = User::where('name', $username)->firstOrFail();
-            $threads->where('user_id', $user->id);
-        }
-
-        $threads = $threads->get();
+        $threads = $this->getThreads($channel);
 
         return view('threads.index', compact('threads'));
     }
@@ -118,5 +107,28 @@ class ThreadController extends Controller
      */
     public function destroy(Thread $thread)
     {
+    }
+
+    /**
+     * @param Channel $channel
+     *
+     * @return Thread|Thread[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    protected function getThreads(Channel $channel)
+    {
+        if ($channel->exists) {
+            $threads = $channel->threads()->latest();
+        } else {
+            $threads = Thread::latest();
+        }
+
+        if ($username = request('by')) {
+            $user = User::where('name', $username)->firstOrFail();
+            $threads->where('user_id', $user->id);
+        }
+
+        $threads = $threads->get();
+
+        return $threads;
     }
 }
