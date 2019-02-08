@@ -24,7 +24,7 @@
                         Channels
                     </a>
                     <div class="navbar-dropdown">
-                        @foreach(App\Channel::all() as $channel)
+                        @foreach($channels as $channel)
                             <a href="/threads/{{$channel->slug}}" class="navbar-item">
                                 {{$channel->name}}
                             </a>
