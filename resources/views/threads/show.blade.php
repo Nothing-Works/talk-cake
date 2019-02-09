@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="container">
-        <div class="columns is-centered">
-            <div class="column is-half">
-                <div class="card">
+        <div class="columns">
+            <div class="column is-8">
+                <div class="card has-margin-bottom-50">
                     <header class="card-header">
                         <p class="card-header-title">
                             <a href="#">{{$thread->user->name}}</a>&nbsp;
@@ -18,15 +18,13 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        @foreach($thread->replies as $reply)
-            @include('threads.reply')
-        @endforeach
 
+                <?php $replies = $thread->replies()->paginate(1); ?>
+                @foreach($replies as $reply)
+                    @include('threads.reply')
+                @endforeach
+                {{$replies->links()}}
 
-        <div class="columns is-centered">
-            <div class="column is-half">
                 @auth
                     <form action="{{$thread->path()}}/replies" method="POST">
                         @csrf
@@ -44,6 +42,20 @@
                 @else
                     <h1>U need to <a href="{{route('login')}}">sign in</a></h1>
                 @endauth
+            </div>
+
+            <div class="column is-4">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="content">
+                            <p>This thread was published {{$thread->created_at->diffForHumans()}}
+                                by <a href="">{{$thread->user->name}}</a>,
+                                and currently
+                                has {{$thread->replies_count}} {{\Illuminate\Support\Str::plural('comment',$thread->replies_count)}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
