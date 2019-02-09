@@ -49,6 +49,11 @@ class Reply extends Model
         return $this->morphMany(Favorite::class, 'favorited');
     }
 
+    public function isFavorited()
+    {
+        return $this->favorites()->where(['user_id' => Auth::id()])->exists();
+    }
+
     public function favorite()
     {
         $attributes = ['user_id' => Auth::id()];

@@ -5,6 +5,7 @@ window._ = require('lodash')
  * to our Laravel back-end. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
+require('@fortawesome/fontawesome-free/js/all')
 
 window.axios = require('axios')
 
