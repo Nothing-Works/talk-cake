@@ -23,4 +23,17 @@ class FavoritesTest extends TestCase
 
         $this->assertCount(1, $reply->favorites);
     }
+
+    public function test_authenticated_user_can_only_favorite_a_reply_once()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAs(factory(User::class)->create());
+        $reply = factory(Reply::class)->create();
+
+        $this->post('/replies/'.$reply->id.'/favorites');
+        $this->post('/replies/'.$reply->id.'/favorites');
+
+        $this->assertCount(1, $reply->favorites);
+    }
 }

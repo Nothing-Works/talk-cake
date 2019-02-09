@@ -37,12 +37,13 @@ class FavoriteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
-     * @param Reply   $reply
+     * @param Reply $reply
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
      */
     public function store(Reply $reply)
     {
-        $reply->favorite();
+        return  $reply->favorite();
     }
 
     /**
