@@ -1,7 +1,7 @@
 <div class="card has-margin-bottom-25">
     <header class="card-header">
         <div class="card-header-title">
-            <a href="#">{{$reply->user->name}}</a>&nbsp;
+            <a href="/profiles/{{$reply->user->name}}">{{$reply->user->name}}</a>&nbsp;
             <span>said {{$reply->created_at->diffForHumans()}}...</span>
         </div>
 

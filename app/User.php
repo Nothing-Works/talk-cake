@@ -2,27 +2,30 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * App\User.
  *
  * @property \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
  * @mixin \Eloquent
- * @property int $id
- * @property string $name
- * @property string $email
- * @property string|null $email_verified_at
- * @property string $password
- * @property string|null $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Thread[] $threads
+ *
+ * @property int                                                    $id
+ * @property string                                                 $name
+ * @property string                                                 $email
+ * @property string|null                                            $email_verified_at
+ * @property string                                                 $password
+ * @property string|null                                            $remember_token
+ * @property \Illuminate\Support\Carbon|null                        $created_at
+ * @property \Illuminate\Support\Carbon|null                        $updated_at
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Reply[]  $replies
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Thread[] $threads
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmailVerifiedAt($value)
@@ -54,9 +57,15 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
+
     public function threads()
     {
-        return $this->hasMany(Thread::class);
+        return $this->hasMany(Thread::class)
+            ->latest();
     }
 
     public function replies()

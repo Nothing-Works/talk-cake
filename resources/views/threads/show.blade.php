@@ -7,7 +7,7 @@
                 <div class="card has-margin-bottom-50">
                     <header class="card-header">
                         <p class="card-header-title">
-                            <a href="#">{{$thread->user->name}}</a>&nbsp;
+                            <a href="/profiles/{{$thread->user->name}}">{{$thread->user->name}}</a>&nbsp;
                             <span>posted: </span>
                             {{$thread->title}}
                         </p>
