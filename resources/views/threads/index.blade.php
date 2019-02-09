@@ -14,7 +14,10 @@
                         <div class="card-content">
                             <nav class="level">
                                 <div class="level-left">
-                                    <h4><a href="{{$thread->path()}}">{{$thread->title}}</a></h4>
+                                    <h4><a href="{{$thread->path()}}">
+                                            {{$thread->title}}
+                                        </a>
+                                        was published {{$thread->created_at->diffForHumans()}}</h4>
                                 </div>
 
                                 <div class="level-right">

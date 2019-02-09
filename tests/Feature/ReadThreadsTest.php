@@ -72,4 +72,22 @@ class ReadThreadsTest extends TestCase
             ->assertSee($thread->tiitle)
             ->assertDontSee($this->thread->title);
     }
+
+    public function test_a_user_can_filter_threads_by_popularity()
+    {
+        $thread3 = factory(Thread::class)->create();
+        $thread2 = factory(Thread::class)->create();
+        $thread1 = factory(Thread::class)->create();
+
+        factory(Reply::class, 3)->create(['thread_id' => $thread3->id]);
+        factory(Reply::class, 2)->create(['thread_id' => $thread2->id]);
+        factory(Reply::class, 1)->create(['thread_id' => $thread1->id]);
+
+        $this->get('/threads?popular=1')
+            ->assertSeeInOrder([
+                $thread3->title,
+                $thread2->title,
+                $thread1->title,
+            ]);
+    }
 }

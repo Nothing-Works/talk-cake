@@ -21,6 +21,10 @@
                         <a href="/threads" class="navbar-item">
                             All Threads
                         </a>
+                        <a href="/threads?popular=1"
+                           class="navbar-item">
+                            Popular All Time
+                        </a>
                         @auth
                             <a href="/threads?by={{\Illuminate\Support\Facades\Auth::user()->name}}"
                                class="navbar-item">
