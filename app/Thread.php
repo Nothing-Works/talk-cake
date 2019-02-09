@@ -36,6 +36,8 @@ class Thread extends Model
 {
     protected $guarded = [];
 
+    protected $with = ['user', 'channel'];
+
     public function path()
     {
         return '/threads/'.$this->channel->slug.'/'.$this->id;

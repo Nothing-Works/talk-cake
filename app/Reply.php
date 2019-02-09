@@ -2,8 +2,8 @@
 
 namespace App;
 
+use App\Traits\Favoritable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * App\Reply.
@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Auth;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \App\Thread                     $thread
  * @property \App\User                       $user
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply query()
@@ -27,12 +26,15 @@ use Illuminate\Support\Facades\Auth;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply whereUserId($value)
  * @mixin \Eloquent
- *
  * @property \Illuminate\Database\Eloquent\Collection|\App\Favorite[] $favorites
+ * @property-read mixed $favorites_count
  */
 class Reply extends Model
 {
+    use Favoritable;
     protected $guarded = [];
+
+    protected $with = ['user', 'favorites'];
 
     public function user()
     {
@@ -42,26 +44,5 @@ class Reply extends Model
     public function thread()
     {
         return $this->belongsTo(Thread::class);
-    }
-
-    public function favorites()
-    {
-        return $this->morphMany(Favorite::class, 'favorited');
-    }
-
-    public function isFavorited()
-    {
-        return $this->favorites()->where(['user_id' => Auth::id()])->exists();
-    }
-
-    public function favorite()
-    {
-        $attributes = ['user_id' => Auth::id()];
-
-        if ($this->favorites()->where($attributes)->exists()) {
-            return null;
-        }
-
-        return   $this->favorites()->create($attributes);
     }
 }
