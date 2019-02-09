@@ -11,6 +11,14 @@
                             <span>posted: </span>
                             {{$thread->title}}
                         </p>
+                        <form action="{{$thread->path()}}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <button type="submit" class="card-header-icon button is-large">
+                             Delete
+                            </button>
+                        </form>
+
                     </header>
                     <div class="card-content">
                         <div class="content">
@@ -24,7 +32,6 @@
                 @endforeach
 
                 {{$replies->links()}}
-
                 @auth
                     <form action="{{$thread->path()}}/replies" method="POST">
                         @csrf

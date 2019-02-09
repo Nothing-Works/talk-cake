@@ -105,12 +105,19 @@ class ThreadController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Channel     $channel
      * @param \App\Thread $thread
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
+     * @throws \Exception
      */
-    public function destroy(Thread $thread)
+    public function destroy(Channel $channel, Thread $thread)
     {
+        $thread->replies()->delete();
+        $thread->delete();
+
+        return redirect('/threads');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Channel;
+use App\Reply;
 use App\Thread;
 use App\User;
 use Tests\TestCase;
@@ -55,6 +56,34 @@ class CreateThreadsTest extends TestCase
         $this->publishThread(['body' => null])
             ->assertSessionHasErrors('body');
     }
+
+    public function test_guest_can_not_delete_threads()
+    {
+        $this->delete( '/threads/as/1')
+            ->assertRedirect('/login');
+    }
+
+    public function test_a_thread_can_be_deleted()
+    {
+        $this->actingAs(factory(User::class)->create());
+
+        $thread = factory(Thread::class)->create();
+
+        $reply = factory(Reply::class)->create(['thread_id' => $thread->id]);
+
+        $this->json('DELETE', $thread->path())
+            ->assertStatus(200);
+
+        $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
+
+    public function test_threads_may_only_be_deleted_by_those_who_have_premissions()
+    {
+        // TODO:
+
+    }
+
 
     protected function publishThread($overrides = [])
     {

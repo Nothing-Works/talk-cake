@@ -69,6 +69,9 @@
                                     document.getElementById('logout-form').submit();">
                                 Log out
                             </a>
+                            <a class="navbar-item" href="/profiles/{{ Auth::user()->name }}" >
+                                My Profile
+                            </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>

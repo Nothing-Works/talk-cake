@@ -4,33 +4,21 @@
     <div class="container">
         <div class="columns is-centered">
             <div class="column is-half">
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            Forum Threads
-                        </p>
-                    </header>
-                    @foreach($threads as $thread)
+                @foreach($threads as $thread)
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                <a href="{{$thread->path()}}">{{$thread->title}}</a>
+                            </p>
+                            <a class="card-header-icon" href="{{$thread->path()}}">{{$thread->replies_count}}
+                                {{\Illuminate\Support\Str::plural('reply',$thread->replies_count)}}</a>
+                        </header>
                         <div class="card-content">
-                            <nav class="level">
-                                <div class="level-left">
-                                    <h4><a href="{{$thread->path()}}">
-                                            {{$thread->title}}
-                                        </a>
-                                        was published {{$thread->created_at->diffForHumans()}}</h4>
-                                </div>
-
-                                <div class="level-right">
-                                    <a href="{{$thread->path()}}">{{$thread->replies_count}}
-                                        {{\Illuminate\Support\Str::plural('reply',$thread->replies_count)}}</a>
-                                </div>
-                            </nav>
-
                             <p>{{$thread->body}}</p>
                         </div>
                         <hr>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>
