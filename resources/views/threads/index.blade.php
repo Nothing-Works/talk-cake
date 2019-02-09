@@ -12,10 +12,18 @@
                     </header>
                     @foreach($threads as $thread)
                         <div class="card-content">
-                            <div class="content">
-                                <h4><a href="{{$thread->path()}}">{{$thread->title}}</a></h4>
-                                <p>{{$thread->body}}</p>
-                            </div>
+                            <nav class="level">
+                                <div class="level-left">
+                                    <h4><a href="{{$thread->path()}}">{{$thread->title}}</a></h4>
+                                </div>
+
+                                <div class="level-right">
+                                    <a href="{{$thread->path()}}">{{$thread->replies_count}}
+                                        {{\Illuminate\Support\Str::plural('reply',$thread->replies_count)}}</a>
+                                </div>
+                            </nav>
+
+                            <p>{{$thread->body}}</p>
                         </div>
                         <hr>
                     @endforeach
