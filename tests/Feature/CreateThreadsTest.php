@@ -83,8 +83,8 @@ class CreateThreadsTest extends TestCase
 
         $this->json('DELETE', $thread->path());
 
-        $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
-        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+        $this->assertDatabaseMissing('threads', [(int) 'id' => $thread->id]);
+        $this->assertDatabaseMissing('replies', [(int) 'id' => $reply->id]);
     }
 
     protected function publishThread($overrides = [])
