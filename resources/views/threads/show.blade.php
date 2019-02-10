@@ -11,14 +11,15 @@
                             <span>posted: </span>
                             {{$thread->title}}
                         </p>
-                        <form action="{{$thread->path()}}" method="POST">
-                            @method('DELETE')
-                            @csrf
-                            <button type="submit" class="card-header-icon button is-large">
-                             Delete
-                            </button>
-                        </form>
-
+                        @can('delete',$thread)
+                            <form action="{{$thread->path()}}" method="POST">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" class="card-header-icon button is-large">
+                                    Delete
+                                </button>
+                            </form>
+                        @endcan
                     </header>
                     <div class="card-content">
                         <div class="content">

@@ -114,14 +114,12 @@ class ThreadController extends Controller
      */
     public function destroy(Channel $channel, Thread $thread)
     {
-        if ($thread->user_id == Auth::id()) {
-            $thread->replies()->delete();
-            $thread->delete();
+        $this->authorize('delete', $thread);
 
-            return redirect('/threads');
-        }
+        $thread->replies()->delete();
+        $thread->delete();
 
-        abort(403, 'You can not do this!');
+        return redirect('/threads');
     }
 
     /**

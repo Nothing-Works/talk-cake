@@ -19,8 +19,8 @@
                     <div class="card has-margin-bottom-25">
                         <header class="card-header">
                             <div class="card-header-title">
-                                <a href="#">{{$thread->user->name}}</a>&nbsp;
-                                <span>posted: {{$thread->title}}</span>
+                                <a href="/profiles/{{$thread->user->name}}">{{$thread->user->name}}</a>&nbsp;
+                                <span>posted: <a href="{{$thread->path()}}">{{$thread->title}}</a></span>
                             </div>
                             <p class="card-header-icon">
                             <span class="content">
