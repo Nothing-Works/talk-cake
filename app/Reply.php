@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\Favoritable;
+use App\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -16,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \App\Thread                     $thread
  * @property \App\User                       $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply query()
@@ -26,12 +28,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply whereUserId($value)
  * @mixin \Eloquent
+ *
  * @property \Illuminate\Database\Eloquent\Collection|\App\Favorite[] $favorites
- * @property-read mixed $favorites_count
+ * @property mixed                                                    $favorites_count
  */
 class Reply extends Model
 {
-    use Favoritable;
+    use Favoritable,RecordsActivity;
     protected $guarded = [];
 
     protected $with = ['user', 'favorites'];
