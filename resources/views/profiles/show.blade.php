@@ -9,33 +9,17 @@
                         <h1 class="title">
                             {{$profileUser->name}}
                         </h1>
-                        <h2 class="subtitle">
-                            Since {{$profileUser->created_at->diffForHumans()}}
-                        </h2>
                     </div>
                 </section>
                 <hr>
-                @foreach($threads as $thread)
-                    <div class="card has-margin-bottom-25">
-                        <header class="card-header">
-                            <div class="card-header-title">
-                                <a href="/profiles/{{$thread->user->name}}">{{$thread->user->name}}</a>&nbsp;
-                                <span>posted: <a href="{{$thread->path()}}">{{$thread->title}}</a></span>
-                            </div>
-                            <p class="card-header-icon">
-                            <span class="content">
-                                {{$thread->created_at->diffForHumans()}}
-                            </span>
-                            </p>
-                        </header>
-                        <div class="card-content">
-                            <div class="content">
-                                <span>{{$thread->body}}</span>
-                            </div>
-                        </div>
+                @foreach($activities as $date => $activity)
+                    <div class="content">
+                        <h1>{{$date}}</h1>
                     </div>
+                    @foreach($activity as $record)
+                        @include('profiles.activities.'.$record->type,['activity'=>$record])
+                    @endforeach
                 @endforeach
-                {{$threads->links()}}
             </div>
         </div>
     </div>
