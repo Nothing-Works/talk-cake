@@ -59,7 +59,7 @@ class CreateThreadsTest extends TestCase
 
     public function test_guest_can_not_delete_threads()
     {
-        $this->delete( '/threads/as/1')
+        $this->delete('/threads/as/1')
             ->assertRedirect('/login');
     }
 
@@ -71,19 +71,16 @@ class CreateThreadsTest extends TestCase
 
         $reply = factory(Reply::class)->create(['thread_id' => $thread->id]);
 
-        $this->json('DELETE', $thread->path())
-            ->assertStatus(200);
+        $this->json('DELETE', $thread->path());
 
         $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
     }
 
-    public function test_threads_may_only_be_deleted_by_those_who_have_premissions()
+    public function test_threads_may_only_be_deleted_by_those_who_have_permissions()
     {
         // TODO:
-
     }
-
 
     protected function publishThread($overrides = [])
     {
