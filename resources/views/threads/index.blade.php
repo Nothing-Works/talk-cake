@@ -4,7 +4,7 @@
     <div class="container">
         <div class="columns is-centered">
             <div class="column is-half">
-                @foreach($threads as $thread)
+                @forelse($threads as $thread)
                     <div class="card">
                         <header class="card-header">
                             <p class="card-header-title">
@@ -18,7 +18,9 @@
                         </div>
                         <hr>
                     </div>
-                @endforeach
+                    @empty
+                    <h1>There is no thread yet</h1>
+                @endforelse
             </div>
         </div>
     </div>
