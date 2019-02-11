@@ -23,6 +23,7 @@
     <main class="section">
         @yield('content')
     </main>
+    <flash-message message="{{session('flash')}}"></flash-message>
 </div>
 
 <!-- Scripts -->

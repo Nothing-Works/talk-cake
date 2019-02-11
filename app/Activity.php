@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Activity newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Activity query()
  * @mixin \Eloquent
- *
  * @property \Illuminate\Database\Eloquent\Model|\Eloquent $subject
  * @property \Illuminate\Database\Eloquent\Model|\Eloquent $activity
  * @property int                                           $id
@@ -21,7 +20,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string                                        $type
  * @property \Illuminate\Support\Carbon|null               $created_at
  * @property \Illuminate\Support\Carbon|null               $updated_at
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Activity whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Activity whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Activity whereSubjectId($value)
