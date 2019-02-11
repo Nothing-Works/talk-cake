@@ -54,7 +54,7 @@ class ReplyController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect($thread->path());
+        return redirect($thread->path())->with('flash', 'Your just left a reply');
     }
 
     /**

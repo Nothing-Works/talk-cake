@@ -1,6 +1,6 @@
 <template>
-    <div class="notification is-success position">
-        <button class="delete"></button>
+    <div v-show="show" class="notification is-success position">
+        <button class="delete" @click="dismiss"></button>
         <strong>Success !!!</strong> {{ body }}
     </div>
 </template>
@@ -11,12 +11,23 @@ export default {
     props: {
         message: {
             type: String,
-            default: 'Flash default'
+            default: 'Flash  Default'
         }
     },
     data() {
         return {
-            body: this.message
+            body: this.message,
+            show: false
+        }
+    },
+    created() {
+        if (this.message) {
+            this.show = true
+        }
+    },
+    methods: {
+        dismiss() {
+            this.show = false
         }
     }
 }

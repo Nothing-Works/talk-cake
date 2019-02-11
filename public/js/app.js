@@ -6046,13 +6046,24 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     message: {
       type: String,
-      default: 'Flash default'
+      default: 'Flash  Default'
     }
   },
   data: function data() {
     return {
-      body: this.message
+      body: this.message,
+      show: false
     };
+  },
+  created: function created() {
+    if (this.message) {
+      this.show = true;
+    }
+  },
+  methods: {
+    dismiss: function dismiss() {
+      this.show = false;
+    }
   }
 });
 
@@ -24354,12 +24365,21 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "notification is-success position" }, [
-    _c("button", { staticClass: "delete" }),
-    _vm._v(" "),
-    _c("strong", [_vm._v("Success !!!")]),
-    _vm._v(" " + _vm._s(_vm.body) + "\n")
-  ])
+  return _c(
+    "div",
+    {
+      directives: [
+        { name: "show", rawName: "v-show", value: _vm.show, expression: "show" }
+      ],
+      staticClass: "notification is-success position"
+    },
+    [
+      _c("button", { staticClass: "delete", on: { click: _vm.dismiss } }),
+      _vm._v(" "),
+      _c("strong", [_vm._v("Success !!!")]),
+      _vm._v(" " + _vm._s(_vm.body) + "\n")
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -60,7 +60,7 @@ class ThreadController extends Controller
                 'channel_id' => 'required|exists:channels,id',
             ]));
 
-        return redirect('/threads');
+        return redirect('/threads')->with('flash', 'Your thread has been published');
     }
 
     /**
