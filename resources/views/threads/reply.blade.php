@@ -1,4 +1,4 @@
-<div class="card has-margin-bottom-25">
+<div id="reply-{{$reply->id}}" class="card has-margin-bottom-25">
     <header class="card-header">
         <div class="card-header-title">
             <a href="/profiles/{{$reply->user->name}}">{{$reply->user->name}}</a>&nbsp;
