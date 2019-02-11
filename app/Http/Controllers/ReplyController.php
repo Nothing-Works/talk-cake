@@ -97,8 +97,17 @@ class ReplyController extends Controller
      * @param \App\Reply $reply
      *
      * @return \Illuminate\Http\Response
+     *
+     * @throws \Exception
      */
     public function destroy(Reply $reply)
     {
+        $this->authorize('delete', $reply);
+
+        $reply->favorites->each->delete();
+
+        $reply->delete();
+
+        return back();
     }
 }

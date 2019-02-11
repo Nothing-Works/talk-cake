@@ -12,6 +12,16 @@
                 <i class="far fa-heart"></i>
             </button>
         </form>
+
+        @can('delete',$reply)
+            <form action="/replies/{{$reply->id}}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="button is-large has-text-info">
+                    Delete
+                </button>
+            </form>
+        @endcan
     </header>
     <div class="card-content">
         <div class="content">
