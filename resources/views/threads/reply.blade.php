@@ -5,15 +5,8 @@
                 <a href="/profiles/{{$reply->user->name}}">{{$reply->user->name}}</a>&nbsp;
                 <span>said {{$reply->created_at->diffForHumans()}}...</span>
             </div>
-            <form action="/replies/{{$reply->id}}/favorites" method="POST">
-                @csrf
-                <button type="submit"
-                        class="button is-large has-text-danger" {{$reply->isFavorited() ? 'disabled':''}} >
-                    {{$reply->favorites_count}} {{\Illuminate\Support\Str::plural('Favorite',$reply->favorites_count)}}
-                </button>
-            </form>
+            <favorite-button :reply="{{$reply}}"></favorite-button>
         </header>
-
         <div class="card-content">
             <div class="content">
                 <div v-if="editing">
@@ -26,7 +19,6 @@
                 <span v-else v-text="body"></span>
             </div>
         </div>
-
         @can('delete',$reply)
             <footer class="card-footer">
                 <button type="button" @click="destroy" class="button is-large has-text-info">

@@ -6025,6 +6025,63 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FavoriteButton.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FavoriteButton.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'FavoriteButton',
+  props: {
+    reply: {
+      type: Object,
+      default: function _default() {
+        return {};
+      }
+    }
+  },
+  data: function data() {
+    return {
+      id: this.reply.id,
+      favoritesCount: this.reply.favoritesCount,
+      isFavorited: this.reply.isFavorited
+    };
+  },
+  computed: {
+    classes: function classes() {
+      return ['button', this.isFavorited ? 'is-black' : ''];
+    }
+  },
+  methods: {
+    toggle: function toggle() {
+      if (this.isFavorited) {
+        axios.delete("/replies/".concat(this.id, "/favorites"));
+        this.isFavorited = false;
+        this.favoritesCount--;
+      } else {
+        axios.post("/replies/".concat(this.id, "/favorites"));
+        this.favoritesCount++;
+        this.isFavorited = true;
+      }
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FlashMessage.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FlashMessage.vue?vue&type=script&lang=js& ***!
@@ -6103,8 +6160,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FavoriteButton__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FavoriteButton */ "./resources/js/components/FavoriteButton.vue");
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ReplyView',
+  components: {
+    FavoriteButton: _FavoriteButton__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   props: {
     reply: {
       type: Object,
@@ -24414,6 +24476,35 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FavoriteButton.vue?vue&type=template&id=27e8fc19&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FavoriteButton.vue?vue&type=template&id=27e8fc19&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("button", { class: _vm.classes, on: { click: _vm.toggle } }, [
+      _vm._v("\n        Favorite\n        "),
+      _c("span", { domProps: { textContent: _vm._s(_vm.favoritesCount) } })
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FlashMessage.vue?vue&type=template&id=3cea7a62&scoped=true&":
 /*!***************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FlashMessage.vue?vue&type=template&id=3cea7a62&scoped=true& ***!
@@ -24568,7 +24659,7 @@ function normalizeComponent (
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.6.5
+ * Vue.js v2.6.6
  * (c) 2014-2019 Evan You
  * Released under the MIT License.
  */
@@ -29948,7 +30039,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.6.5';
+Vue.version = '2.6.6';
 
 /*  */
 
@@ -35360,7 +35451,13 @@ function genHandler (handler) {
 }
 
 function genKeyFilter (keys) {
-  return ("if(('keyCode' in $event)&&" + (keys.map(genFilterCode).join('&&')) + ")return null;")
+  return (
+    // make sure the key filters only apply to KeyboardEvents
+    // #9441: can't use 'keyCode' in $event because Chrome autofill fires fake
+    // key events that do not have keyCode property...
+    "if(!$event.type.indexOf('key')&&" +
+    (keys.map(genFilterCode).join('&&')) + ")return null;"
+  )
 }
 
 function genFilterCode (key) {
@@ -35723,7 +35820,12 @@ function genScopedSlots (
   // for example if the slot contains dynamic names, has v-if or v-for on them...
   var needsForceUpdate = Object.keys(slots).some(function (key) {
     var slot = slots[key];
-    return slot.slotTargetDynamic || slot.if || slot.for
+    return (
+      slot.slotTargetDynamic ||
+      slot.if ||
+      slot.for ||
+      containsSlotChild(slot) // is passing down slot from parent which may be dynamic
+    )
   });
   // OR when it is inside another scoped slot (the reactivity is disconnected)
   // #9438
@@ -35741,6 +35843,16 @@ function genScopedSlots (
   return ("scopedSlots:_u([" + (Object.keys(slots).map(function (key) {
       return genScopedSlot(slots[key], state)
     }).join(',')) + "]" + (needsForceUpdate ? ",true" : "") + ")")
+}
+
+function containsSlotChild (el) {
+  if (el.type === 1) {
+    if (el.tag === 'slot') {
+      return true
+    }
+    return el.children.some(containsSlotChild)
+  }
+  return false
 }
 
 function genScopedSlot (
@@ -36562,6 +36674,75 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/FavoriteButton.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/FavoriteButton.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _FavoriteButton_vue_vue_type_template_id_27e8fc19_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FavoriteButton.vue?vue&type=template&id=27e8fc19&scoped=true& */ "./resources/js/components/FavoriteButton.vue?vue&type=template&id=27e8fc19&scoped=true&");
+/* harmony import */ var _FavoriteButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FavoriteButton.vue?vue&type=script&lang=js& */ "./resources/js/components/FavoriteButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _FavoriteButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _FavoriteButton_vue_vue_type_template_id_27e8fc19_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _FavoriteButton_vue_vue_type_template_id_27e8fc19_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "27e8fc19",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/FavoriteButton.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/FavoriteButton.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/FavoriteButton.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FavoriteButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./FavoriteButton.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FavoriteButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_FavoriteButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/FavoriteButton.vue?vue&type=template&id=27e8fc19&scoped=true&":
+/*!***********************************************************************************************!*\
+  !*** ./resources/js/components/FavoriteButton.vue?vue&type=template&id=27e8fc19&scoped=true& ***!
+  \***********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FavoriteButton_vue_vue_type_template_id_27e8fc19_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./FavoriteButton.vue?vue&type=template&id=27e8fc19&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FavoriteButton.vue?vue&type=template&id=27e8fc19&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FavoriteButton_vue_vue_type_template_id_27e8fc19_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_FavoriteButton_vue_vue_type_template_id_27e8fc19_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

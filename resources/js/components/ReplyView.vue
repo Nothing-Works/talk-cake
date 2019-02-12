@@ -1,6 +1,8 @@
 <script>
+import FavoriteButton from './FavoriteButton'
 export default {
     name: 'ReplyView',
+    components: { FavoriteButton },
     props: {
         reply: {
             type: Object,
