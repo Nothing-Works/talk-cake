@@ -1,5 +1,5 @@
 <reply-view inline-template v-cloak :reply="{{$reply}}">
-    <div id="reply-{{$reply->id}}" class="card has-margin-bottom-25">
+    <div v-if="show" id="reply-{{$reply->id}}" class="card has-margin-bottom-25">
         <header class="card-header">
             <div class="card-header-title">
                 <a href="/profiles/{{$reply->user->name}}">{{$reply->user->name}}</a>&nbsp;
@@ -29,25 +29,21 @@
 
         @can('delete',$reply)
             <footer class="card-footer">
-                <form action="/replies/{{$reply->id}}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="button is-large has-text-info">
-                        Delete
-                    </button>
+                <button type="button" @click="destroy" class="button is-large has-text-info">
+                    Delete
+                </button>
 
-                    <div v-if="editing">
-                        <button type="button" @click="save" class="button is-large has-text-info">
-                            Save
-                        </button>
-                        <button type="button" @click="cancel" class="button is-large has-text-info">
-                            Cancel
-                        </button>
-                    </div>
-                    <button v-else type="button" @click="showInput" class="button is-large has-text-info">
-                        edit
+                <div v-if="editing">
+                    <button type="button" @click="save" class="button is-large has-text-info">
+                        Save
                     </button>
-                </form>
+                    <button type="button" @click="cancel" class="button is-large has-text-info">
+                        Cancel
+                    </button>
+                </div>
+                <button v-else type="button" @click="showInput" class="button is-large has-text-info">
+                    edit
+                </button>
             </footer>
         @endcan
     </div>

@@ -43,7 +43,7 @@ class ParticipateInForumTest extends TestCase
         $this->actingAs($user);
         $reply = factory(Reply::class)->create(['user_id' => $user->id]);
         $this->delete('/replies/'.$reply->id)
-            ->assertStatus(302);
+            ->assertStatus(200);
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
     }
 

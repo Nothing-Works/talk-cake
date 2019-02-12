@@ -12,7 +12,8 @@ export default {
     data() {
         return {
             editing: false,
-            body: this.reply.body
+            body: this.reply.body,
+            show: true
         }
     },
     mounted() {
@@ -32,6 +33,17 @@ export default {
                 .then(response => {
                     this.body = response.data
                     this.editing = false
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        },
+        destroy() {
+            axios
+                .delete(`/replies/${this.reply.id}`)
+                .then(response => {
+                    console.log(response)
+                    this.show = false
                 })
                 .catch(error => {
                     console.log(error)

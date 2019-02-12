@@ -98,7 +98,6 @@ class ReplyController extends Controller
         return response()->json($reply->fresh()->body);
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
@@ -114,8 +113,8 @@ class ReplyController extends Controller
 
         $reply->favorites->each->delete();
 
-        $reply->delete();
+        $status = $reply->delete();
 
-        return back();
+        return response()->json($status);
     }
 }

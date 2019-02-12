@@ -6116,7 +6116,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       editing: false,
-      body: this.reply.body
+      body: this.reply.body,
+      show: true
     };
   },
   mounted: function mounted() {
@@ -6138,6 +6139,16 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this.body = response.data;
         _this.editing = false;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+    destroy: function destroy() {
+      var _this2 = this;
+
+      axios.delete("/replies/".concat(this.reply.id)).then(function (response) {
+        console.log(response);
+        _this2.show = false;
       }).catch(function (error) {
         console.log(error);
       });
