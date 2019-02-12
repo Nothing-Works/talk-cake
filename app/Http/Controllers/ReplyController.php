@@ -86,10 +86,18 @@ class ReplyController extends Controller
      * @param \App\Reply               $reply
      *
      * @return \Illuminate\Http\Response
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, Reply $reply)
     {
+        $this->authorize('update', $reply);
+
+        $reply->update($request->validate(['body' => 'required']));
+
+        return response()->json($reply->fresh()->body);
     }
+
 
     /**
      * Remove the specified resource from storage.

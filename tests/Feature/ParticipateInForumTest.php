@@ -63,4 +63,35 @@ class ParticipateInForumTest extends TestCase
         $this->delete('/replies/'.$reply->id)
             ->assertStatus(403);
     }
+
+    public function test_an_authorised_user_can_update_a_reply()
+    {
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user);
+
+        $reply = factory(Reply::class)->create(['user_id' => $user->id]);
+
+        $this->patch('/replies/'.$reply->id, ['body' => 'updated']);
+
+        $this->assertDatabaseHas('replies', ['id' => $reply->id, 'body' => 'updated']);
+    }
+
+
+
+    public function test_unauthenticated_can_not_update_a_reply()
+    {
+        $reply = factory(Reply::class)->create();
+
+        $this->delete('/replies/'.$reply->id)
+            ->assertRedirect('/login');
+    }
+    public function test_unauthorised_can_not_leave_a_reply()
+    {
+        $user = factory(User::class)->create();
+        $this->actingAs($user);
+        $reply = factory(Reply::class)->create();
+        $this->patch('/replies/'.$reply->id, ['body' => 'updated'])
+            ->assertStatus(403);
+    }
 }
