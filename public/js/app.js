@@ -6228,6 +6228,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ReplyView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReplyView */ "./resources/js/components/ReplyView.vue");
 /* harmony import */ var _NewReply__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NewReply */ "./resources/js/components/NewReply.vue");
+/* harmony import */ var _mixins_Collection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../mixins/Collection */ "./resources/js/mixins/Collection.js");
 //
 //
 //
@@ -6237,6 +6238,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6245,9 +6247,11 @@ __webpack_require__.r(__webpack_exports__);
     ReplyView: _ReplyView__WEBPACK_IMPORTED_MODULE_0__["default"],
     NewReply: _NewReply__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  mixins: [_mixins_Collection__WEBPACK_IMPORTED_MODULE_2__["default"]],
   data: function data() {
     return {
-      replies: [],
+      dataSet: false,
+      items: [],
       endpoint: location.pathname + '/replies'
     };
   },
@@ -6260,18 +6264,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     refresh: function refresh(_ref) {
       var data = _ref.data;
-      console.log(data);
+      this.dataSet = data;
+      this.items = data.data;
     },
     url: function url() {
       return location.pathname + '/replies';
-    },
-    deleted: function deleted(index) {
-      this.replies.splice(index, 1);
-      this.$emit('deleted');
-    },
-    newReply: function newReply(reply) {
-      this.replies.push(reply);
-      this.$emit('added');
     }
   }
 });
@@ -42472,7 +42469,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm._l(_vm.replies, function(reply, index) {
+      _vm._l(_vm.items, function(reply, index) {
         return _c(
           "div",
           { key: reply.id },
@@ -42481,7 +42478,7 @@ var render = function() {
               attrs: { reply: reply },
               on: {
                 deleted: function($event) {
-                  return _vm.deleted(index)
+                  return _vm.remove(index)
                 }
               }
             })
@@ -42492,7 +42489,7 @@ var render = function() {
       _vm._v(" "),
       _c("new-reply", {
         attrs: { endpoint: _vm.endpoint },
-        on: { addedReply: _vm.newReply }
+        on: { addedReply: _vm.add }
       })
     ],
     2
@@ -55189,6 +55186,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReplyView_vue_vue_type_template_id_00a41158___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/mixins/Collection.js":
+/*!*******************************************!*\
+  !*** ./resources/js/mixins/Collection.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      items: []
+    };
+  },
+  methods: {
+    remove: function remove(index) {
+      this.items.splice(index, 1);
+      this.$emit('removed');
+    },
+    add: function add(item) {
+      this.items.push(item);
+      this.$emit('added');
+    }
+  }
+});
 
 /***/ }),
 

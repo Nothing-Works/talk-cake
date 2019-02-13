@@ -1,22 +1,25 @@
 <template>
     <div>
-        <div v-for="(reply, index) in replies" :key="reply.id">
-            <reply-view :reply="reply" @deleted="deleted(index)"></reply-view>
+        <div v-for="(reply, index) in items" :key="reply.id">
+            <reply-view :reply="reply" @deleted="remove(index)"></reply-view>
         </div>
-        <new-reply :endpoint="endpoint" @addedReply="newReply"></new-reply>
+        <new-reply :endpoint="endpoint" @addedReply="add"></new-reply>
     </div>
 </template>
 
 <script>
 import ReplyView from './ReplyView'
 import NewReply from './NewReply'
+import collection from '../mixins/Collection'
 
 export default {
     name: 'RepliesView',
     components: { ReplyView, NewReply },
+    mixins: [collection],
     data() {
         return {
-            replies: [],
+            dataSet: false,
+            items: [],
             endpoint: location.pathname + '/replies'
         }
     },
@@ -28,18 +31,11 @@ export default {
             axios.get(this.url()).then(this.refresh)
         },
         refresh({ data }) {
-            console.log(data)
+            this.dataSet = data
+            this.items = data.data
         },
         url() {
             return location.pathname + '/replies'
-        },
-        deleted(index) {
-            this.replies.splice(index, 1)
-            this.$emit('deleted')
-        },
-        newReply(reply) {
-            this.replies.push(reply)
-            this.$emit('added')
         }
     }
 }
