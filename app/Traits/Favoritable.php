@@ -10,13 +10,6 @@ use Illuminate\Support\Facades\Auth;
  */
 trait Favoritable
 {
-
-    protected static function bootFavoritable(){
-        static::deleting(function ($model) {
-            $model->favorites->each->delete();
-        });
-    }
-
     public function favorite()
     {
         $attributes = ['user_id' => Auth::id()];
@@ -54,5 +47,12 @@ trait Favoritable
     public function getFavoritesCountAttribute()
     {
         return $this->favorites->count();
+    }
+
+    protected static function bootFavoritable()
+    {
+        static::deleting(function ($model) {
+            $model->favorites->each->delete();
+        });
     }
 }
