@@ -16,7 +16,7 @@ window.Vue = require('vue')
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 Vue.component('navigation-bar', require('./components/NavigationBar').default)
 Vue.component('flash-message', require('./components/FlashMessage').default)
-Vue.component('reply-view', require('./components/ReplyView').default)
+Vue.component('thread-view', require('./pages/ThreadView').default)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
