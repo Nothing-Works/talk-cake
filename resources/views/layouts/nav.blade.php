@@ -25,6 +25,10 @@
                            class="navbar-item">
                             Popular All Time
                         </a>
+                        <a href="/threads?unanswered=1"
+                           class="navbar-item">
+                            Unanswered Threads
+                        </a>
                         @auth
                             <a href="/threads?by={{\Illuminate\Support\Facades\Auth::user()->name}}"
                                class="navbar-item">
