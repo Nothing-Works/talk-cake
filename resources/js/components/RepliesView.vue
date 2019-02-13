@@ -3,6 +3,7 @@
         <div v-for="(reply, index) in items" :key="reply.id">
             <reply-view :reply="reply" @deleted="remove(index)"></reply-view>
         </div>
+        <paginator-view :all="dataSet"></paginator-view>
         <new-reply :endpoint="endpoint" @addedReply="add"></new-reply>
     </div>
 </template>
@@ -18,8 +19,7 @@ export default {
     mixins: [collection],
     data() {
         return {
-            dataSet: false,
-            items: [],
+            dataSet: {},
             endpoint: location.pathname + '/replies'
         }
     },
@@ -31,6 +31,7 @@ export default {
             axios.get(this.url()).then(this.refresh)
         },
         refresh({ data }) {
+            console.log(data)
             this.dataSet = data
             this.items = data.data
         },
