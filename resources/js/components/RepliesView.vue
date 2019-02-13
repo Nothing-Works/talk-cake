@@ -38,6 +38,7 @@ export default {
         refresh({ data }) {
             this.dataSet = data
             this.items = data.data
+            window.scrollTo(0, 0)
         },
         url(page) {
             return location.pathname + '/replies?page=' + page

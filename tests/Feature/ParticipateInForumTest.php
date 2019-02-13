@@ -16,9 +16,7 @@ class ParticipateInForumTest extends TestCase
         $reply = factory(Reply::class)->make();
         $this->post($thread->path().'/replies', $reply->toArray());
 
-        $this->get($thread->path())
-            ->assertStatus(200)
-            ->assertSee($reply->body);
+        $this->assertDatabaseHas('replies',['body'=>$reply->body]);
     }
 
     public function test_unauthenticated_user_can_not_add_reply()
