@@ -6237,21 +6237,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'PaginatorView',
   props: {
@@ -6281,12 +6266,15 @@ __webpack_require__.r(__webpack_exports__);
       this.nextUrl = this.all.next_page_url;
     },
     page: function page() {
-      this.broadcast();
+      this.broadcast().updateUrl();
     }
   },
   methods: {
     broadcast: function broadcast() {
-      this.$emit('changed', this.page);
+      return this.$emit('changed', this.page);
+    },
+    updateUrl: function updateUrl() {
+      history.pushState(null, null, '?page=' + this.page);
     }
   }
 });
@@ -6335,10 +6323,12 @@ __webpack_require__.r(__webpack_exports__);
     this.fetch();
   },
   methods: {
-    test: function test(page) {
-      axios.get(this.url(page)).then(this.refresh);
-    },
     fetch: function fetch(page) {
+      if (!page) {
+        var query = location.search.match(/page=(\d+)/);
+        page = query ? query[1] : 1;
+      }
+
       axios.get(this.url(page)).then(this.refresh);
     },
     refresh: function refresh(_ref) {
@@ -6346,8 +6336,7 @@ __webpack_require__.r(__webpack_exports__);
       this.dataSet = data;
       this.items = data.data;
     },
-    url: function url() {
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+    url: function url(page) {
       return location.pathname + '/replies?page=' + page;
     }
   }
@@ -42547,94 +42536,52 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.shouldPaginate
-    ? _c(
-        "nav",
-        { staticClass: "pagination is-centered has-margin-bottom-15" },
-        [
-          _c(
-            "a",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.preUrl,
-                  expression: "preUrl"
-                }
-              ],
-              staticClass: "pagination-previous",
-              on: {
-                click: function($event) {
-                  _vm.page--
-                }
-              }
-            },
-            [_vm._v("Previous")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.nextUrl,
-                  expression: "nextUrl"
-                }
-              ],
-              staticClass: "pagination-next",
-              on: {
-                click: function($event) {
-                  _vm.page++
-                }
-              }
-            },
-            [_vm._v("Next page")]
-          ),
-          _vm._v(" "),
-          _vm._m(0)
-        ]
-      )
-    : _vm._e()
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "pagination-list" }, [
-      _c("li", [_c("a", { staticClass: "pagination-link" }, [_vm._v("1")])]),
-      _vm._v(" "),
-      _c("li", [
-        _c("span", { staticClass: "pagination-ellipsis" }, [_vm._v("…")])
-      ]),
-      _vm._v(" "),
-      _c("li", [
+    ? _c("nav", { staticClass: "pagination has-margin-bottom-15" }, [
         _c(
           "a",
           {
-            staticClass: "pagination-link",
-            attrs: { "aria-label": "Goto page 45" }
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.preUrl,
+                expression: "preUrl"
+              }
+            ],
+            staticClass: "pagination-previous",
+            on: {
+              click: function($event) {
+                _vm.page--
+              }
+            }
           },
-          [_vm._v("45")]
+          [_vm._v("Previous")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.nextUrl,
+                expression: "nextUrl"
+              }
+            ],
+            staticClass: "pagination-next",
+            on: {
+              click: function($event) {
+                _vm.page++
+              }
+            }
+          },
+          [_vm._v("Next page")]
         )
-      ]),
-      _vm._v(" "),
-      _c("li", [
-        _c("a", { staticClass: "pagination-link is-current" }, [_vm._v("46")])
-      ]),
-      _vm._v(" "),
-      _c("li", [_c("a", { staticClass: "pagination-link" }, [_vm._v("47")])]),
-      _vm._v(" "),
-      _c("li", [
-        _c("span", { staticClass: "pagination-ellipsis" }, [_vm._v("…")])
-      ]),
-      _vm._v(" "),
-      _c("li", [_c("a", { staticClass: "pagination-link" }, [_vm._v("86")])])
-    ])
-  }
-]
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -42679,7 +42626,7 @@ var render = function() {
       _vm._v(" "),
       _c("paginator-view", {
         attrs: { all: _vm.dataSet },
-        on: { changed: _vm.test }
+        on: { changed: _vm.fetch }
       }),
       _vm._v(" "),
       _c("new-reply", {

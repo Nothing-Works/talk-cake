@@ -22,12 +22,13 @@ class ReplyController extends Controller
      * Display a listing of the resource.
      *
      * @param Channel $channel
-     * @param Thread $thread
+     * @param Thread  $thread
+     *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function index(Channel $channel, Thread $thread)
     {
-        return $thread->replies()->paginate(1);
+        return $thread->replies()->paginate(20);
     }
 
     /**
