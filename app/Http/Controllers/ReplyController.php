@@ -49,12 +49,12 @@ class ReplyController extends Controller
     {
         $request->validate(['body' => 'required']);
 
-        $thread->addReply([
+        $reply = $thread->addReply([
             'body' => $request->input('body'),
             'user_id' => Auth::id(),
         ]);
 
-        return redirect($thread->path())->with('flash', 'Your just left a reply');
+        return $reply->load('user');
     }
 
     /**

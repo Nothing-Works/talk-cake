@@ -13,10 +13,10 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <script>
-      window.shared ={!! json_encode([
+      window.shared =@json([
             'signedIn' => auth()->check(),
             'user'=>auth()->user(),
-        ]) !!};
+        ]);
     </script>
 </head>
 
