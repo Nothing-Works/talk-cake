@@ -6,7 +6,7 @@
                     :href="'/profiles/' + reply.user.name"
                     v-text="reply.user.name"
                 ></a>
-                <span>said {{ reply.created_at }}...</span>
+                <p>said <span v-text="ago"></span></p>
             </div>
             <favorite-button v-if="signedIn" :reply="reply"></favorite-button>
         </header>
@@ -63,6 +63,8 @@
 </template>
 <script>
 import FavoriteButton from './FavoriteButton'
+import moment from 'moment'
+
 export default {
     name: 'ReplyView',
     components: { FavoriteButton },
@@ -87,10 +89,16 @@ export default {
         },
         canUpdate() {
             return this.authorize(user => this.reply.user_id === user.id)
+        },
+        ago() {
+            return moment
+                .utc(this.reply.created_at)
+                .local()
+                .fromNow()
         }
     },
     mounted() {
-        console.log('mounted')
+        console.log('mounter')
     },
     methods: {
         showInput() {

@@ -22,6 +22,7 @@
         "eslint-plugin-vue": "^5.1.0",
         "laravel-mix": "^4.0.14",
         "lodash": "^4.17.11",
+        "moment": "^2.24.0",
         "prettier": "^1.16.4",
         "resolve-url-loader": "^3.0.0",
         "sass": "^1.17.0",
