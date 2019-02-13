@@ -5,7 +5,9 @@
                 <a href="/profiles/{{$reply->user->name}}">{{$reply->user->name}}</a>&nbsp;
                 <span>said {{$reply->created_at->diffForHumans()}}...</span>
             </div>
-            <favorite-button :reply="{{$reply}}"></favorite-button>
+            @auth
+                <favorite-button :reply="{{$reply}}"></favorite-button>
+            @endauth
         </header>
         <div class="card-content">
             <div class="content">

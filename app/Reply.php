@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Database\Eloquent\Collection|\App\Favorite[] $favorites
  * @property mixed                                                    $favorites_count
  * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
+ * @property-read mixed $is_favorited
  */
 class Reply extends Model
 {

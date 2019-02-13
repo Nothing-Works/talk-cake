@@ -12,7 +12,7 @@
                     </div>
                 </section>
                 <hr>
-                @foreach($activities as $date => $activity)
+                @forelse($activities as $date => $activity)
                     <div class="content">
                         <h1>{{$date}}</h1>
                     </div>
@@ -21,7 +21,9 @@
                             @include('profiles.activities.'.$record->type,['activity'=>$record])
                         @endif
                     @endforeach
-                @endforeach
+                    @empty
+                    <p>Nothing to show</p>
+                @endforelse
             </div>
         </div>
     </div>
