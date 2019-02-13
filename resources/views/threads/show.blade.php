@@ -28,14 +28,8 @@
                             </div>
                         </div>
                     </div>
-
-                    <replies-view @added="repliesCount++" :items="{{$thread->replies}}" @deleted="repliesCount--"></replies-view>
-                    {{--{{$replies->links()}}--}}
-
-
-
+                    <replies-view @added="repliesCount++" @deleted="repliesCount--"></replies-view>
                 </div>
-
                 <div class="column is-4">
                     <div class="card">
                         <div class="card-content">

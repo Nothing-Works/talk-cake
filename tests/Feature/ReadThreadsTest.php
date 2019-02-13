@@ -90,4 +90,16 @@ class ReadThreadsTest extends TestCase
                 $thread1->title,
             ]);
     }
+
+    public function test_a_user_can_request_all_replies_for_a_given_thread()
+    {
+        $thread = factory(Thread::class)->create();
+
+        $replies = factory(Reply::class, 2)->create(['thread_id' => $thread->id]);
+
+        $response = $this->getJson($thread->path().'/replies')->json();
+
+        $this->assertCount(1,$response['data']);
+        $this->assertEquals(2,$response['total']);
+    }
 }

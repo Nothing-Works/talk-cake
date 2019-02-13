@@ -6245,28 +6245,32 @@ __webpack_require__.r(__webpack_exports__);
     ReplyView: _ReplyView__WEBPACK_IMPORTED_MODULE_0__["default"],
     NewReply: _NewReply__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  props: {
-    items: {
-      type: Array,
-      default: function _default() {
-        return [];
-      }
-    }
-  },
   data: function data() {
     return {
-      replies: this.items,
+      replies: [],
       endpoint: location.pathname + '/replies'
     };
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    this.fetch();
+  },
   methods: {
+    fetch: function fetch() {
+      axios.get(this.url()).then(this.refresh);
+    },
+    refresh: function refresh(_ref) {
+      var data = _ref.data;
+      console.log(data);
+    },
+    url: function url() {
+      return location.pathname + '/replies';
+    },
     deleted: function deleted(index) {
       this.replies.splice(index, 1);
       this.$emit('deleted');
     },
     newReply: function newReply(reply) {
-      this.items.push(reply);
+      this.replies.push(reply);
       this.$emit('added');
     }
   }
