@@ -8,7 +8,7 @@
                 ></a>
                 <span>said {{ reply.created_at }}...</span>
             </div>
-            <favorite-button :reply="reply"></favorite-button>
+            <favorite-button v-if="signedIn" :reply="reply"></favorite-button>
         </header>
         <div class="card-content">
             <div class="content">
@@ -26,8 +26,7 @@
                 <span v-else v-text="body"></span>
             </div>
         </div>
-        <!--@can('delete',$reply)-->
-        <footer class="card-footer">
+        <footer v-if="canUpdate" class="card-footer">
             <button
                 type="button"
                 class="button is-large has-text-info"
@@ -35,7 +34,6 @@
             >
                 Delete
             </button>
-
             <div v-if="editing">
                 <button
                     type="button"
@@ -61,7 +59,6 @@
                 edit
             </button>
         </footer>
-        <!--@endcan-->
     </div>
 </template>
 <script>
@@ -82,6 +79,14 @@ export default {
             id: this.reply.id,
             editing: false,
             body: this.reply.body
+        }
+    },
+    computed: {
+        signedIn() {
+            return window.shared.signedIn
+        },
+        canUpdate() {
+            return this.authorize(user => this.reply.user_id === user.id)
         }
     },
     mounted() {
@@ -106,6 +111,7 @@ export default {
                     console.log(error)
                 })
         },
+
         destroy() {
             axios
                 .delete(`/replies/${this.reply.id}`)

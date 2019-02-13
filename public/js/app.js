@@ -6272,9 +6272,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ReplyView',
@@ -6296,6 +6293,18 @@ __webpack_require__.r(__webpack_exports__);
       body: this.reply.body
     };
   },
+  computed: {
+    signedIn: function signedIn() {
+      return window.shared.signedIn;
+    },
+    canUpdate: function canUpdate() {
+      var _this = this;
+
+      return this.authorize(function (user) {
+        return _this.reply.user_id === user.id;
+      });
+    }
+  },
   mounted: function mounted() {
     console.log('mounted');
   },
@@ -6308,22 +6317,22 @@ __webpack_require__.r(__webpack_exports__);
       this.body = this.reply.body;
     },
     save: function save() {
-      var _this = this;
+      var _this2 = this;
 
       axios.patch("/replies/".concat(this.reply.id), {
         body: this.body
       }).then(function (response) {
-        _this.body = response.data;
-        _this.editing = false;
+        _this2.body = response.data;
+        _this2.editing = false;
       }).catch(function (error) {
         console.log(error);
       });
     },
     destroy: function destroy() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.delete("/replies/".concat(this.reply.id)).then(function (response) {
-        _this2.$emit('deleted', _this2.id);
+        _this3.$emit('deleted', _this3.id);
 
         console.log(response);
       }).catch(function (error) {
@@ -24768,7 +24777,9 @@ var render = function() {
             _c("span", [_vm._v("said " + _vm._s(_vm.reply.created_at) + "...")])
           ]),
           _vm._v(" "),
-          _c("favorite-button", { attrs: { reply: _vm.reply } })
+          _vm.signedIn
+            ? _c("favorite-button", { attrs: { reply: _vm.reply } })
+            : _vm._e()
         ],
         1
       ),
@@ -24807,49 +24818,51 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("footer", { staticClass: "card-footer" }, [
-        _c(
-          "button",
-          {
-            staticClass: "button is-large has-text-info",
-            attrs: { type: "button" },
-            on: { click: _vm.destroy }
-          },
-          [_vm._v("\n            Delete\n        ")]
-        ),
-        _vm._v(" "),
-        _vm.editing
-          ? _c("div", [
-              _c(
-                "button",
-                {
-                  staticClass: "button is-large has-text-info",
-                  attrs: { type: "button" },
-                  on: { click: _vm.save }
-                },
-                [_vm._v("\n                Save\n            ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "button is-large has-text-info",
-                  attrs: { type: "button" },
-                  on: { click: _vm.cancel }
-                },
-                [_vm._v("\n                Cancel\n            ")]
-              )
-            ])
-          : _c(
+      _vm.canUpdate
+        ? _c("footer", { staticClass: "card-footer" }, [
+            _c(
               "button",
               {
                 staticClass: "button is-large has-text-info",
                 attrs: { type: "button" },
-                on: { click: _vm.showInput }
+                on: { click: _vm.destroy }
               },
-              [_vm._v("\n            edit\n        ")]
-            )
-      ])
+              [_vm._v("\n            Delete\n        ")]
+            ),
+            _vm._v(" "),
+            _vm.editing
+              ? _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "button is-large has-text-info",
+                      attrs: { type: "button" },
+                      on: { click: _vm.save }
+                    },
+                    [_vm._v("\n                Save\n            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "button is-large has-text-info",
+                      attrs: { type: "button" },
+                      on: { click: _vm.cancel }
+                    },
+                    [_vm._v("\n                Cancel\n            ")]
+                  )
+                ])
+              : _c(
+                  "button",
+                  {
+                    staticClass: "button is-large has-text-info",
+                    attrs: { type: "button" },
+                    on: { click: _vm.showInput }
+                  },
+                  [_vm._v("\n            edit\n        ")]
+                )
+          ])
+        : _vm._e()
     ]
   )
 }
@@ -36922,6 +36935,11 @@ module.exports = function(module) {
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+
+window.Vue.prototype.authorize = function (handler) {
+  var user = window.shared.user;
+  return user ? handler(user) : false;
+};
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -36931,6 +36949,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
  */
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
 
 Vue.component('navigation-bar', __webpack_require__(/*! ./components/NavigationBar */ "./resources/js/components/NavigationBar.vue").default);
 Vue.component('flash-message', __webpack_require__(/*! ./components/FlashMessage */ "./resources/js/components/FlashMessage.vue").default);
