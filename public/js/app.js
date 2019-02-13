@@ -6248,6 +6248,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'PaginatorView',
   props: {
@@ -6260,15 +6264,29 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      page: this.all.current_page,
-      preUrl: this.all.prev_page_url,
-      nextUrl: this.all.next_page_url,
-      andy: this.all
+      page: 1,
+      preUrl: false,
+      nextUrl: false
     };
   },
   computed: {
     shouldPaginate: function shouldPaginate() {
-      return this.preUrl || this.nextUrl;
+      return !!this.preUrl || !!this.nextUrl;
+    }
+  },
+  watch: {
+    all: function all() {
+      this.page = this.all.current_page;
+      this.preUrl = this.all.prev_page_url;
+      this.nextUrl = this.all.next_page_url;
+    },
+    page: function page() {
+      this.broadcast();
+    }
+  },
+  methods: {
+    broadcast: function broadcast() {
+      this.$emit('changed', this.page);
     }
   }
 });
@@ -6313,21 +6331,24 @@ __webpack_require__.r(__webpack_exports__);
       endpoint: location.pathname + '/replies'
     };
   },
-  mounted: function mounted() {
+  created: function created() {
     this.fetch();
   },
   methods: {
-    fetch: function fetch() {
-      axios.get(this.url()).then(this.refresh);
+    test: function test(page) {
+      axios.get(this.url(page)).then(this.refresh);
+    },
+    fetch: function fetch(page) {
+      axios.get(this.url(page)).then(this.refresh);
     },
     refresh: function refresh(_ref) {
       var data = _ref.data;
-      console.log(data);
       this.dataSet = data;
       this.items = data.data;
     },
     url: function url() {
-      return location.pathname + '/replies';
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      return location.pathname + '/replies?page=' + page;
     }
   }
 });
@@ -42541,7 +42562,12 @@ var render = function() {
                   expression: "preUrl"
                 }
               ],
-              staticClass: "pagination-previous"
+              staticClass: "pagination-previous",
+              on: {
+                click: function($event) {
+                  _vm.page--
+                }
+              }
             },
             [_vm._v("Previous")]
           ),
@@ -42557,7 +42583,12 @@ var render = function() {
                   expression: "nextUrl"
                 }
               ],
-              staticClass: "pagination-next"
+              staticClass: "pagination-next",
+              on: {
+                click: function($event) {
+                  _vm.page++
+                }
+              }
             },
             [_vm._v("Next page")]
           ),
@@ -42646,7 +42677,10 @@ var render = function() {
         )
       }),
       _vm._v(" "),
-      _c("paginator-view", { attrs: { all: _vm.dataSet } }),
+      _c("paginator-view", {
+        attrs: { all: _vm.dataSet },
+        on: { changed: _vm.test }
+      }),
       _vm._v(" "),
       _c("new-reply", {
         attrs: { endpoint: _vm.endpoint },
