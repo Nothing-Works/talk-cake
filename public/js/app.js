@@ -6513,9 +6513,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     subscribed: {
@@ -6529,9 +6526,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    subscribe: function subscribe() {
-      axios.post(location.pathname + '/subscriptions');
-      this.active = true;
+    toggle: function toggle() {
+      axios[this.active ? 'delete' : 'post'](location.pathname + '/subscriptions');
+      this.active = !this.active;
     }
   }
 });
@@ -42844,7 +42841,7 @@ var render = function() {
       "button",
       {
         class: ["button", _vm.active ? "is-danger" : ""],
-        on: { click: _vm.subscribe }
+        on: { click: _vm.toggle }
       },
       [_vm._v("\n        Subscribe\n    ")]
     )

@@ -1,9 +1,6 @@
 <template>
     <div>
-        <button
-            :class="['button', active ? 'is-danger' : '']"
-            @click="subscribe"
-        >
+        <button :class="['button', active ? 'is-danger' : '']" @click="toggle">
             Subscribe
         </button>
     </div>
@@ -23,9 +20,11 @@ export default {
         }
     },
     methods: {
-        subscribe() {
-            axios.post(location.pathname + '/subscriptions')
-            this.active = true
+        toggle() {
+            axios[this.active ? 'delete' : 'post'](
+                location.pathname + '/subscriptions'
+            )
+            this.active = !this.active
         }
     }
 }
