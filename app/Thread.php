@@ -48,6 +48,8 @@ class Thread extends Model
 
     protected $with = ['user', 'channel'];
 
+    protected $appends = ['isSubscribed'];
+
     public function path()
     {
         return '/threads/'.$this->channel->slug.'/'.$this->id;
@@ -56,6 +58,11 @@ class Thread extends Model
     public function unsubscribe()
     {
         $this->subscriptions()->where('user_id', Auth::id())->delete();
+    }
+
+    public function getIsSubscribedAttribute()
+    {
+        return $this->subscriptions()->where('user_id', Auth::id())->exists();
     }
 
     public function subscribe()

@@ -8,8 +8,6 @@ class CreateThreadSubscriptionsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -19,7 +17,7 @@ class CreateThreadSubscriptionsTable extends Migration
             $table->unsignedInteger('thread_id');
             $table->timestamps();
 
-            $table->unique(['user_id','thread_id']);
+            $table->unique(['user_id', 'thread_id']);
 
             $table->foreign('thread_id')
                 ->references('id')
@@ -30,8 +28,6 @@ class CreateThreadSubscriptionsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

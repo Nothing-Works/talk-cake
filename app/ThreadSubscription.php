@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\ThreadSubscription
+ * App\ThreadSubscription.
  *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ThreadSubscription newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ThreadSubscription newQuery()
@@ -14,6 +14,5 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ThreadSubscription extends Model
 {
-    //
-    protected $guarded=[];
+    protected $guarded = [];
 }

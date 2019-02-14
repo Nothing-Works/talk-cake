@@ -1,8 +1,9 @@
 <script>
 import RepliesView from '../components/RepliesView'
+import SubscribeButton from '../components/SubscribeButton'
 export default {
     name: 'ThreadView',
-    components: { RepliesView },
+    components: { RepliesView, SubscribeButton },
     props: {
         count: {
             type: Number,
