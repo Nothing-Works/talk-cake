@@ -6,6 +6,7 @@ use App\Filters\ThreadFilters;
 use App\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * App\Thread.
@@ -32,7 +33,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int          $channel_id
  * @method static                                                  \Illuminate\Database\Eloquent\Builder|\App\Thread whereChannelId($value)
  * @method static\Illuminate\Database\Eloquent\Builder|\App\Thread filter($filters)
- * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[]           $activities
+ * @property \Illuminate\Database\Eloquent\Collection|\App\ThreadSubscription[] $subscriptions
  */
 class Thread extends Model
 {
@@ -45,6 +47,23 @@ class Thread extends Model
     public function path()
     {
         return '/threads/'.$this->channel->slug.'/'.$this->id;
+    }
+
+    public function unsubscribe()
+    {
+        $this->subscriptions()->where('user_id', Auth::id())->delete();
+    }
+
+    public function subscribe()
+    {
+        $this->subscriptions()->create([
+           'user_id' => Auth::id(),
+        ]);
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(ThreadSubscription::class);
     }
 
     public function replies()
