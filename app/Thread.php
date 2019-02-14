@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
  * @property \Illuminate\Support\Carbon|null                       $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies
  * @property \App\User                                             $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread query()
@@ -29,10 +30,13 @@ use Illuminate\Support\Facades\Auth;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUserId($value)
  * @mixin \Eloquent
+ *
  * @property \App\Channel $channel
  * @property int          $channel_id
+ *
  * @method static                                                  \Illuminate\Database\Eloquent\Builder|\App\Thread whereChannelId($value)
  * @method static\Illuminate\Database\Eloquent\Builder|\App\Thread filter($filters)
+ *
  * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[]           $activities
  * @property \Illuminate\Database\Eloquent\Collection|\App\ThreadSubscription[] $subscriptions
  */
@@ -56,7 +60,7 @@ class Thread extends Model
 
     public function subscribe()
     {
-        $this->subscriptions()->create([
+        return $this->subscriptions()->create([
            'user_id' => Auth::id(),
         ]);
     }
