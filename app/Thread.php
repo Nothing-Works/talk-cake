@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Filters\ThreadFilters;
+use App\Notifications\ThreadWasUpdated;
 use App\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -35,7 +36,7 @@ use Illuminate\Support\Facades\Auth;
  * @method static\Illuminate\Database\Eloquent\Builder|\App\Thread filter($filters)
  * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[]           $activities
  * @property \Illuminate\Database\Eloquent\Collection|\App\ThreadSubscription[] $subscriptions
- * @property-read mixed $is_subscribed
+ * @property mixed                                                              $is_subscribed
  */
 class Thread extends Model
 {
@@ -54,7 +55,7 @@ class Thread extends Model
 
     public function unsubscribe()
     {
-       return $this->subscriptions()->where('user_id', Auth::id())->delete();
+        return $this->subscriptions()->where('user_id', Auth::id())->delete();
     }
 
     public function getIsSubscribedAttribute()
@@ -64,9 +65,11 @@ class Thread extends Model
 
     public function subscribe()
     {
-        return $this->subscriptions()->create([
+        $this->subscriptions()->create([
            'user_id' => Auth::id(),
         ]);
+
+        return $this;
     }
 
     public function subscriptions()
@@ -86,7 +89,13 @@ class Thread extends Model
 
     public function addReply($attribute)
     {
-        return $this->replies()->create($attribute);
+        $reply = $this->replies()->create($attribute);
+
+        $this->subscriptions->filter(function ($subscription) use ($reply) {
+            return $subscription->user_id != $reply->user_id;
+        })->each->notify($reply);
+
+        return $reply;
     }
 
     public function channel()
