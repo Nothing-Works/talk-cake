@@ -64,6 +64,7 @@
                         </div>
                     </div>
                 @else
+                    <user-notifications></user-notifications>
                     <div class="navbar-item has-dropdown is-hoverable">
                         <a class="navbar-link">
                             {{ Auth::user()->name }}

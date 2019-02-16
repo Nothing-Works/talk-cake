@@ -1,6 +1,11 @@
 <script>
+import UserNotifications from './UserNotifications'
+
 export default {
     name: 'NavigationBar',
+    components: {
+        UserNotifications
+    },
     data() {
         return {
             show: false
