@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Filters\ThreadFilters;
-use App\Notifications\ThreadWasUpdated;
 use App\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
  * @property \Illuminate\Support\Carbon|null                       $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies
  * @property \App\User                                             $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread query()
@@ -30,10 +30,13 @@ use Illuminate\Support\Facades\Auth;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUserId($value)
  * @mixin \Eloquent
+ *
  * @property \App\Channel $channel
  * @property int          $channel_id
+ *
  * @method static                                                  \Illuminate\Database\Eloquent\Builder|\App\Thread whereChannelId($value)
  * @method static\Illuminate\Database\Eloquent\Builder|\App\Thread filter($filters)
+ *
  * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[]           $activities
  * @property \Illuminate\Database\Eloquent\Collection|\App\ThreadSubscription[] $subscriptions
  * @property mixed                                                              $is_subscribed
@@ -91,11 +94,17 @@ class Thread extends Model
     {
         $reply = $this->replies()->create($attribute);
 
-        $this->subscriptions->filter(function ($subscription) use ($reply) {
-            return $subscription->user_id != $reply->user_id;
-        })->each->notify($reply);
+        $this->notifySubscribers($reply);
 
         return $reply;
+    }
+
+    public function notifySubscribers($reply)
+    {
+        $this->subscriptions
+                ->where('user_id', '!=', $reply->user_id)
+                ->each
+                ->notify($reply);
     }
 
     public function channel()
