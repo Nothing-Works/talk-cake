@@ -3,9 +3,11 @@
 namespace Tests\Unit;
 
 use App\Channel;
+use App\Notifications\ThreadWasUpdated;
 use App\Reply;
 use App\Thread;
 use App\User;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class ThreadTest extends TestCase
@@ -94,5 +96,20 @@ class ThreadTest extends TestCase
         $thread->subscribe();
 
         $this->assertTrue($thread->isSubscribed);
+    }
+
+    public function test_a_thread_notifies_all_registered_subscribers_when_a_reply_is_added()
+    {
+        Notification::fake();
+
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user);
+
+        $this->thread->subscribe()->addReply([
+        'body' => $this->faker->paragraph,
+        'user_id' => 1, ]);
+
+        Notification::assertSentTo(auth()->user(), ThreadWasUpdated::class);
     }
 }
