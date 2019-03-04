@@ -16,7 +16,7 @@ class ParticipateInForumTest extends TestCase
         $reply = factory(Reply::class)->make();
         $this->post($thread->path().'/replies', $reply->toArray());
 
-        $this->assertDatabaseHas('replies',['body'=>$reply->body]);
+        $this->assertDatabaseHas('replies', ['body' => $reply->body]);
     }
 
     public function test_unauthenticated_user_can_not_add_reply()
@@ -75,8 +75,6 @@ class ParticipateInForumTest extends TestCase
         $this->assertDatabaseHas('replies', ['id' => $reply->id, 'body' => 'updated']);
     }
 
-
-
     public function test_unauthenticated_can_not_update_a_reply()
     {
         $reply = factory(Reply::class)->create();
@@ -84,6 +82,7 @@ class ParticipateInForumTest extends TestCase
         $this->delete('/replies/'.$reply->id)
             ->assertRedirect('/login');
     }
+
     public function test_unauthorised_can_not_leave_a_reply()
     {
         $user = factory(User::class)->create();
@@ -91,5 +90,20 @@ class ParticipateInForumTest extends TestCase
         $reply = factory(Reply::class)->create();
         $this->patch('/replies/'.$reply->id, ['body' => 'updated'])
             ->assertStatus(403);
+    }
+
+    public function test_reply_contains_spam_may_not_be_created()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->actingAs(factory(User::class)->create());
+
+        $thread = factory(Thread::class)->create();
+
+        $reply = factory(Reply::class)->make(['body' => 'Yahoo Customer Support']);
+
+        $this->expectException(\Exception::class);
+
+        $this->post($thread->path().'/replies', $reply->toArray());
     }
 }

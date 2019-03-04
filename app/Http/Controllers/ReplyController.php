@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Reply;
+use App\Spam;
 use App\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,12 +47,17 @@ class ReplyController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param Channel                  $channel
      * @param Thread                   $thread
+     * @param Spam                     $spam
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
+     * @throws \Exception
      */
-    public function store(Request $request, Channel $channel, Thread $thread)
+    public function store(Request $request, Channel $channel, Thread $thread, Spam $spam)
     {
         $request->validate(['body' => 'required']);
+
+        $spam->detect($request->input('body'));
 
         $reply = $thread->addReply([
             'body' => $request->input('body'),
