@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Channel;
 use App\Filters\ThreadFilters;
 use App\Thread;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class ThreadController extends Controller
 {
@@ -73,6 +75,10 @@ class ThreadController extends Controller
      */
     public function show(Channel $channel, Thread $thread)
     {
+        $key = sprintf('users.%s.visits.%s', auth()->id(), $thread->id);
+
+        Cache::forever($key, Carbon::now());
+
         return view('threads.show', compact('thread'));
     }
 

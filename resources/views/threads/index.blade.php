@@ -8,8 +8,9 @@
                     <div class="card">
                         <header class="card-header">
                             <p class="card-header-title">
-                                <a href="{{$thread->path()}}">{{$thread->title}}</a>
+                                <a class="{{$thread->hasUpdate() ? 'has-text-success' : ''}}" href="{{$thread->path()}}">{{$thread->title}}</a>
                             </p>
+
                             <a class="card-header-icon" href="{{$thread->path()}}">{{$thread->replies_count}}
                                 {{\Illuminate\Support\Str::plural('reply',$thread->replies_count)}}</a>
                         </header>

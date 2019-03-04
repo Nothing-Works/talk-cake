@@ -8,6 +8,7 @@ use App\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * App\Thread.
@@ -111,6 +112,13 @@ class Thread extends Model
     public function channel()
     {
         return $this->belongsTo(Channel::class);
+    }
+
+    public function hasUpdate()
+    {
+        $key = sprintf('users.%s.visits.%s', auth()->id(), $this->id);
+
+        return $this->updated_at > Cache::get($key);
     }
 
     /**
