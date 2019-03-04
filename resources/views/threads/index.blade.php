@@ -8,7 +8,8 @@
                     <div class="card">
                         <header class="card-header">
                             <p class="card-header-title">
-                                <a class="{{$thread->hasUpdate() ? 'has-text-success' : ''}}" href="{{$thread->path()}}">{{$thread->title}}</a>
+                                <a class="{{ auth()->check()&&$thread->hasUpdate() ? 'has-text-success' : ''}}"
+                                   href="{{$thread->path()}}">{{$thread->title}}</a>
                             </p>
 
                             <a class="card-header-icon" href="{{$thread->path()}}">{{$thread->replies_count}}
@@ -19,7 +20,7 @@
                         </div>
                         <hr>
                     </div>
-                    @empty
+                @empty
                     <h1>There is no thread yet</h1>
                 @endforelse
             </div>

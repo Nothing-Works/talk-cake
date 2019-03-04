@@ -73,7 +73,9 @@ class ThreadController extends Controller
      */
     public function show(Channel $channel, Thread $thread)
     {
-        Auth::user() ? Auth::user()->readThread($thread) : false;
+        if (Auth::user()) {
+            Auth::user()->readThread($thread);
+        }
 
         return view('threads.show', compact('thread'));
     }

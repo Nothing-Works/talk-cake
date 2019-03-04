@@ -116,7 +116,7 @@ class Thread extends Model
 
     public function hasUpdate()
     {
-        return Auth::user() ? $this->updated_at > Cache::get(Auth::user()->visitedThreadCacheKey($this)) : false;
+        return $this->updated_at > Cache::get(Auth::user()->visitedThreadCacheKey($this));
     }
 
     /**
