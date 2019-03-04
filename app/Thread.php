@@ -116,9 +116,7 @@ class Thread extends Model
 
     public function hasUpdate()
     {
-        $key = sprintf('users.%s.visits.%s', auth()->id(), $this->id);
-
-        return $this->updated_at > Cache::get($key);
+        return Auth::user() ? $this->updated_at > Cache::get(Auth::user()->visitedThreadCacheKey($this)) : false;
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Notifications\ThreadWasUpdated;
 use App\Reply;
 use App\Thread;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -111,5 +112,20 @@ class ThreadTest extends TestCase
         'user_id' => 1, ]);
 
         Notification::assertSentTo(auth()->user(), ThreadWasUpdated::class);
+    }
+
+    public function test_a_thread_can_check_if_the_authenticated_user_has_read_all_replies()
+    {
+        $user = factory(User::class)->create();
+
+        $this->actingAs($user);
+
+        $thread = factory(Thread::class)->create();
+
+        $this->assertTrue($thread->hasUpdate());
+
+        Auth::user()->readTHread($thread);
+
+        $this->assertFalse($thread->hasUpdate());
     }
 }
