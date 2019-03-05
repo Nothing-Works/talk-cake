@@ -4,6 +4,11 @@ namespace App\Inspections;
 
 class Spam
 {
+    protected $inspections = [
+        InvalidKeyWords::class,
+        KeyHeldDown::class,
+    ];
+
     /**
      * @param $value
      *
@@ -13,39 +18,10 @@ class Spam
      */
     public function detect($value)
     {
-        $this->detectInvalidKeyWords($value);
-        $this->detectKeyHeldDown($value);
+        foreach ($this->inspections as $inspection) {
+            app()->makeWith($inspection, ['value' => $value])->detect();
+        }
 
         return false;
-    }
-
-    /**
-     * @param $value
-     *
-     * @throws \Exception
-     */
-    protected function detectInvalidKeyWords($value)
-    {
-        $invalidKeyWords = [
-            'yahoo customer support',
-        ];
-
-        foreach ($invalidKeyWords as $keyWord) {
-            if (false !== stripos($value, $keyWord)) {
-                throw new \Exception('Your reply contains spam');
-            }
-        }
-    }
-
-    /**
-     * @param $value
-     *
-     * @throws \Exception
-     */
-    protected function detectKeyHeldDown($value)
-    {
-        if (preg_match('/(.)\\1{4,}/', $value)) {
-            throw new \Exception('Your reply contains spam');
-        }
     }
 }
