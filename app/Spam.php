@@ -14,6 +14,7 @@ class Spam
     public function detect($value)
     {
         $this->detectInvalidKeyWords($value);
+        $this->detectKeyHeldDown($value);
 
         return false;
     }
@@ -33,6 +34,18 @@ class Spam
             if (false !== stripos($value, $keyWord)) {
                 throw new \Exception('Your reply contains spam');
             }
+        }
+    }
+
+    /**
+     * @param $value
+     *
+     * @throws \Exception
+     */
+    protected function detectKeyHeldDown($value)
+    {
+        if (preg_match('/(.)\\1{4,}/', $value)) {
+            throw new \Exception('Your reply contains spam');
         }
     }
 }
