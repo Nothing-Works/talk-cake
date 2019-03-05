@@ -38,17 +38,14 @@ class ReplyController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param Channel                  $channel
      * @param Thread                   $thread
-     * @param Spam                     $spam
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      *
      * @throws \Exception
      */
-    public function store(Request $request, Channel $channel, Thread $thread, Spam $spam)
+    public function store(Request $request, Channel $channel, Thread $thread)
     {
-        $request->validate(['body' => 'required']);
-
-        $spam->detect($request->input('body'));
+        $this->validateReply();
 
         $reply = $thread->addReply([
             'body' => $request->input('body'),
@@ -63,20 +60,19 @@ class ReplyController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Reply               $reply
-     * @param Spam                     $spam
      *
      * @return \Illuminate\Http\Response
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
      * @throws \Exception
      */
-    public function update(Request $request, Reply $reply, Spam $spam)
+    public function update(Request $request, Reply $reply)
     {
         $this->authorize('update', $reply);
 
-        $spam->detect($request->input('body'));
+        $this->validateReply();
 
-        $reply->update($request->validate(['body' => 'required']));
+        $reply->update($request->only('body'));
 
         return response()->json($reply->fresh()->body);
     }
@@ -98,5 +94,12 @@ class ReplyController extends Controller
         return response()->json($status);
     }
 
-
+    /**
+     * @throws \Exception
+     */
+    protected function validateReply()
+    {
+        request()->validate(['body' => 'required']);
+        resolve(Spam::class)->detect(request('body'));
+    }
 }
