@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
-use App\Reply;
 use App\Inspections\Spam;
+use App\Reply;
 use App\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,15 +30,6 @@ class ReplyController extends Controller
     public function index(Channel $channel, Thread $thread)
     {
         return $thread->replies()->paginate(20);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
     }
 
     /**
@@ -68,40 +59,22 @@ class ReplyController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param \App\Reply $reply
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Reply $reply)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Reply $reply
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Reply $reply)
-    {
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Reply               $reply
+     * @param Spam                     $spam
      *
      * @return \Illuminate\Http\Response
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Exception
      */
-    public function update(Request $request, Reply $reply)
+    public function update(Request $request, Reply $reply, Spam $spam)
     {
         $this->authorize('update', $reply);
+
+        $spam->detect($request->input('body'));
 
         $reply->update($request->validate(['body' => 'required']));
 
@@ -124,4 +97,6 @@ class ReplyController extends Controller
 
         return response()->json($status);
     }
+
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Filters\ThreadFilters;
+use App\Inspections\Spam;
 use App\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,11 +48,15 @@ class ThreadController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
+     * @param Spam                     $spam
      *
      * @return \Illuminate\Http\Response
+     *
+     * @throws \Exception
      */
-    public function store(Request $request)
+    public function store(Request $request, Spam $spam)
     {
+        $spam->detect($request->input('body'));
         Auth::user()
             ->threads()
             ->create($request->validate([
