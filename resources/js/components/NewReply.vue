@@ -47,7 +47,7 @@ export default {
                     this.$emit('addedReply', data)
                 })
                 .catch(error => {
-                    alert(error.response.data)
+                    alert(error.response.data.message)
                 })
         }
     }

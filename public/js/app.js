@@ -6216,7 +6216,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$emit('addedReply', data);
       }).catch(function (error) {
-        alert(error.response.data);
+        alert(error.response.data.message);
       });
     }
   }
@@ -6484,7 +6484,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.body = response.data;
         _this2.editing = false;
       }).catch(function (error) {
-        alert(error.response.data);
+        alert(error.response.data.message);
       });
     },
     destroy: function destroy() {

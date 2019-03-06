@@ -116,7 +116,7 @@ export default {
                     this.editing = false
                 })
                 .catch(error => {
-                    alert(error.response.data)
+                    alert(error.response.data.message)
                 })
         },
 
