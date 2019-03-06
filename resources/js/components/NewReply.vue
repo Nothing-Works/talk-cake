@@ -40,13 +40,16 @@ export default {
     },
     methods: {
         submit() {
-            axios.post(this.endpoint, { body: this.body }).then(({ data }) => {
-                this.body = ''
-                this.$emit('addedReply', data)
-            })
+            axios
+                .post(this.endpoint, { body: this.body })
+                .then(({ data }) => {
+                    this.body = ''
+                    this.$emit('addedReply', data)
+                })
+                .catch(error => {
+                    alert(error.response.data)
+                })
         }
     }
 }
 </script>
-
-<style scoped></style>

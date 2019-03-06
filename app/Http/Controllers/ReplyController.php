@@ -40,12 +40,14 @@ class ReplyController extends Controller
      * @param Thread                   $thread
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     *
-     * @throws \Exception
      */
     public function store(Request $request, Channel $channel, Thread $thread)
     {
-        $this->validateReply();
+        try {
+            $this->validateReply();
+        } catch (\Exception $e) {
+            return response('Sorry, your reply could not be saved at this time', 422);
+        }
 
         $reply = $thread->addReply([
             'body' => $request->input('body'),
@@ -64,13 +66,16 @@ class ReplyController extends Controller
      * @return \Illuminate\Http\Response
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
-     * @throws \Exception
      */
     public function update(Request $request, Reply $reply)
     {
         $this->authorize('update', $reply);
 
-        $this->validateReply();
+        try {
+            $this->validateReply();
+        } catch (\Exception $e) {
+            return response('Sorry, your reply could not be saved at this time', 422);
+        }
 
         $reply->update($request->only('body'));
 
