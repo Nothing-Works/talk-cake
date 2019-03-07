@@ -106,4 +106,19 @@ class ParticipateInForumTest extends TestCase
 
         $this->post($thread->path().'/replies', $reply->toArray());
     }
+
+    public function test_users_may_only_reply_a_maximum_of_once_per_minute()
+    {
+        $this->actingAs(factory(User::class)->create());
+
+        $thread = factory(Thread::class)->create();
+
+        $reply = factory(Reply::class)->make(['body' => 'my simple reply']);
+
+        $this->post($thread->path().'/replies', $reply->toArray())
+            ->assertStatus(201);
+
+        $this->post($thread->path().'/replies', $reply->toArray())
+            ->assertStatus(403);
+    }
 }

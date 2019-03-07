@@ -32,4 +32,11 @@ class UserTest extends TestCase
     {
         $this->assertContainsOnlyInstancesOf(Reply::class, $this->user->replies);
     }
+
+    public function test_a_user_can_fetch_their_most_recent_reply()
+    {
+        $user = factory(User::class)->create();
+        $reply = factory(Reply::class)->create(['user_id' => $user->id]);
+        $this->assertEquals($user->lastReply->id, $reply->id);
+    }
 }

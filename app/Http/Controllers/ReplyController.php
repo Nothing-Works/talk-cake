@@ -40,9 +40,13 @@ class ReplyController extends Controller
      * @param Thread                   $thread
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request, Channel $channel, Thread $thread)
     {
+        $this->authorize('create', new Reply());
+
         $request->validate(['body' => ['required', new SpamFree()]]);
 
         $reply = $thread->addReply([
