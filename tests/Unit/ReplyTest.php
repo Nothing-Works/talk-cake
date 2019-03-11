@@ -36,9 +36,21 @@ class ReplyTest extends TestCase
     {
         $this->assertTrue($this->reply->wasJustPublished());
 
-        $this->reply->created_at=Carbon::now()->subMonth();
+        $this->reply->created_at = Carbon::now()->subMonth();
 
         $this->assertFalse($this->reply->wasJustPublished());
+    }
 
+    public function test_it_can_detect_all_mentioned_users_in_the_body()
+    {
+        $jane = factory(User::class)->create(['name' => 'jane']);
+
+        $john = factory(User::class)->create(['name' => 'john']);
+
+        $reply = factory(Reply::class)->create(['body' => '@jane wants to talk to @john']);
+
+        $this->assertTrue($reply->mentionedUsers()->contains('name',$jane->name));
+
+        $this->assertTrue($reply->mentionedUsers()->contains('name',$john->name));
     }
 }

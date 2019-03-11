@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Http\Requests\ReplyForm;
-use App\Notifications\YouWereMentioned;
 use App\Reply;
 use App\Rules\SpamFree;
 use App\Thread;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,21 +45,10 @@ class ReplyController extends Controller
      */
     public function store(Request $request, Channel $channel, Thread $thread, ReplyForm $form)
     {
-        $reply = $thread->addReply([
+        return $thread->addReply([
             'body' => $request->input('body'),
             'user_id' => Auth::id(),
-        ]);
-
-        preg_match_all('/\@([^\s\.]+)/', $reply->body, $matches);
-
-        foreach ($matches[1] as $name) {
-            $user = User::whereName($name)->first();
-            if ($user) {
-                $user->notify(new YouWereMentioned($reply));
-            }
-        }
-
-        return  $reply->load('user');
+        ])->load('user');
     }
 
     /**
