@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\Http\Requests\ReplyForm;
 use App\Reply;
 use App\Rules\SpamFree;
 use App\Thread;
@@ -38,23 +39,16 @@ class ReplyController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param Channel                  $channel
      * @param Thread                   $thread
+     * @param ReplyForm                $form
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function store(Request $request, Channel $channel, Thread $thread)
+    public function store(Request $request, Channel $channel, Thread $thread, ReplyForm $form)
     {
-        $this->authorize('create', new Reply());
-
-        $request->validate(['body' => ['required', new SpamFree()]]);
-
-        $reply = $thread->addReply([
+        return  $thread->addReply([
             'body' => $request->input('body'),
             'user_id' => Auth::id(),
-        ]);
-
-        return $reply->load('user');
+        ])->load('user');
     }
 
     /**
