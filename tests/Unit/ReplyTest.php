@@ -49,8 +49,15 @@ class ReplyTest extends TestCase
 
         $reply = factory(Reply::class)->create(['body' => '@jane wants to talk to @john']);
 
-        $this->assertTrue($reply->mentionedUsers()->contains('name',$jane->name));
+        $this->assertTrue($reply->mentionedUsers()->contains('name', $jane->name));
 
-        $this->assertTrue($reply->mentionedUsers()->contains('name',$john->name));
+        $this->assertTrue($reply->mentionedUsers()->contains('name', $john->name));
+    }
+
+    public function test_it_wraps_mentioned_username_in_the_body_within_anchor_tags()
+    {
+        $reply = factory(Reply::class)->create(['body' => 'Hello @jane-doe.']);
+
+        $this->assertEquals('Hello <a href="/profiles/jane-doe">@jane-doe</a>.', $reply->body);
     }
 }
