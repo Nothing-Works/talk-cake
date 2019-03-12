@@ -25,7 +25,7 @@
                             </div>
                         </div>
                     </div>
-                    <span v-else v-text="body"></span>
+                    <span v-else v-html="body"></span>
                 </div>
             </div>
             <footer v-if="canUpdate" class="card-footer">

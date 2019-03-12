@@ -42833,7 +42833,7 @@ var render = function() {
                       ])
                     ])
                   ])
-                : _c("span", { domProps: { textContent: _vm._s(_vm.body) } })
+                : _c("span", { domProps: { innerHTML: _vm._s(_vm.body) } })
             ])
           ]),
           _vm._v(" "),
