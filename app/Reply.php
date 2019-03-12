@@ -61,9 +61,7 @@ class Reply extends Model
     {
         preg_match_all('/\@([^\s\.]+)/', $this->body, $matches);
 
-        return collect($matches[1])->map(function ($name) {
-            return User::whereName($name)->first();
-        })->filter();
+        return  User::whereIn('name', $matches[1])->get();
     }
 
     public function path()

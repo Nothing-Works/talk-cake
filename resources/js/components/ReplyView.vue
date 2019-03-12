@@ -10,55 +10,54 @@
             </div>
             <favorite-button v-if="signedIn" :reply="reply"></favorite-button>
         </header>
-        <div class="card-content">
-            <div class="content">
-                <div v-if="editing">
-                    <div class="field">
-                        <div class="control">
-                            <textarea
-                                v-model="body"
-                                aria-label="body"
-                                class="textarea"
-                            ></textarea>
+        <form @submit.prevent="save">
+            <div class="card-content">
+                <div class="content">
+                    <div v-if="editing">
+                        <div class="field">
+                            <div class="control">
+                                <textarea
+                                    v-model="body"
+                                    aria-label="body"
+                                    class="textarea"
+                                    required
+                                ></textarea>
+                            </div>
                         </div>
                     </div>
+                    <span v-else v-text="body"></span>
                 </div>
-                <span v-else v-text="body"></span>
             </div>
-        </div>
-        <footer v-if="canUpdate" class="card-footer">
-            <button
-                type="button"
-                class="button is-large has-text-info"
-                @click="destroy"
-            >
-                Delete
-            </button>
-            <div v-if="editing">
+            <footer v-if="canUpdate" class="card-footer">
                 <button
                     type="button"
                     class="button is-large has-text-info"
-                    @click="save"
+                    @click="destroy"
                 >
-                    Save
+                    Delete
                 </button>
+                <div v-if="editing">
+                    <button type="submit" class="button is-large has-text-info">
+                        Save
+                    </button>
+                    <button
+                        type="button"
+                        class="button is-large has-text-info"
+                        @click="cancel"
+                    >
+                        Cancel
+                    </button>
+                </div>
                 <button
+                    v-else
                     type="button"
                     class="button is-large has-text-info"
-                    @click="cancel"
+                    @click="showInput"
                 >
-                    Cancel
+                    edit
                 </button>
-            </div>
-            <button
-                v-else
-                type="button"
-                class="button is-large has-text-info"
-                @click="showInput"
-            >
-                edit
-            </button>
-        </footer>
+            </footer>
+        </form>
     </div>
 </template>
 <script>

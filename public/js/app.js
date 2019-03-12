@@ -6426,7 +6426,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -42793,85 +42792,101 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "card-content" }, [
-        _c("div", { staticClass: "content" }, [
-          _vm.editing
-            ? _c("div", [
-                _c("div", { staticClass: "field" }, [
-                  _c("div", { staticClass: "control" }, [
-                    _c("textarea", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.body,
-                          expression: "body"
-                        }
-                      ],
-                      staticClass: "textarea",
-                      attrs: { "aria-label": "body" },
-                      domProps: { value: _vm.body },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.save($event)
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "content" }, [
+              _vm.editing
+                ? _c("div", [
+                    _c("div", { staticClass: "field" }, [
+                      _c("div", { staticClass: "control" }, [
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.body,
+                              expression: "body"
+                            }
+                          ],
+                          staticClass: "textarea",
+                          attrs: { "aria-label": "body", required: "" },
+                          domProps: { value: _vm.body },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.body = $event.target.value
+                            }
                           }
-                          _vm.body = $event.target.value
-                        }
-                      }
-                    })
+                        })
+                      ])
+                    ])
                   ])
-                ])
-              ])
-            : _c("span", { domProps: { textContent: _vm._s(_vm.body) } })
-        ])
-      ]),
-      _vm._v(" "),
-      _vm.canUpdate
-        ? _c("footer", { staticClass: "card-footer" }, [
-            _c(
-              "button",
-              {
-                staticClass: "button is-large has-text-info",
-                attrs: { type: "button" },
-                on: { click: _vm.destroy }
-              },
-              [_vm._v("\n            Delete\n        ")]
-            ),
-            _vm._v(" "),
-            _vm.editing
-              ? _c("div", [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "button is-large has-text-info",
-                      attrs: { type: "button" },
-                      on: { click: _vm.save }
-                    },
-                    [_vm._v("\n                Save\n            ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "button is-large has-text-info",
-                      attrs: { type: "button" },
-                      on: { click: _vm.cancel }
-                    },
-                    [_vm._v("\n                Cancel\n            ")]
-                  )
-                ])
-              : _c(
+                : _c("span", { domProps: { textContent: _vm._s(_vm.body) } })
+            ])
+          ]),
+          _vm._v(" "),
+          _vm.canUpdate
+            ? _c("footer", { staticClass: "card-footer" }, [
+                _c(
                   "button",
                   {
                     staticClass: "button is-large has-text-info",
                     attrs: { type: "button" },
-                    on: { click: _vm.showInput }
+                    on: { click: _vm.destroy }
                   },
-                  [_vm._v("\n            edit\n        ")]
-                )
-          ])
-        : _vm._e()
+                  [_vm._v("\n                Delete\n            ")]
+                ),
+                _vm._v(" "),
+                _vm.editing
+                  ? _c("div", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button is-large has-text-info",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("\n                    Save\n                ")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button is-large has-text-info",
+                          attrs: { type: "button" },
+                          on: { click: _vm.cancel }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Cancel\n                "
+                          )
+                        ]
+                      )
+                    ])
+                  : _c(
+                      "button",
+                      {
+                        staticClass: "button is-large has-text-info",
+                        attrs: { type: "button" },
+                        on: { click: _vm.showInput }
+                      },
+                      [_vm._v("\n                edit\n            ")]
+                    )
+              ])
+            : _vm._e()
+        ]
+      )
     ]
   )
 }
