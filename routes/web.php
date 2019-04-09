@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('api/users', 'Api\UserController@index');
 Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');
 Route::get('/threads/{channel}/{thread}/replies', 'ReplyController@index');
 

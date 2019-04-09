@@ -43,14 +43,9 @@ export default {
 
     mounted() {
         const tribute = new Tribute({
-            values: [
-                { key: 'Phil Heartman', value: 'pheartman' },
-                { key: 'Gordon Ramsey', value: 'gramsey' },
-                { key: 'Gordon Ramsey', value: 'gramsey' },
-                { key: 'Gordon Ramsey', value: 'gramsey' },
-                { key: 'Gordon Ramsey', value: 'gramsey' },
-                { key: 'Gordon Ramsey', value: 'gramsey' }
-            ]
+            values: (text, cb) => this.fetchUser(text, cb),
+            lookup: 'name',
+            fillAttr: 'name'
         })
         tribute.attach(document.getElementById('input'))
     },
@@ -64,6 +59,18 @@ export default {
                 })
                 .catch(error => {
                     alert(error.response.data.message)
+                })
+        },
+        fetchUser(text, cb) {
+            axios
+                .get(`/api/users?name=${text}`)
+                .then(function(response) {
+                    console.log(response)
+                    cb(response.data)
+                })
+                .catch(function(error) {
+                    console.log(error)
+                    cb([])
                 })
         }
     }

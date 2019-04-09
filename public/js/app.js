@@ -6235,42 +6235,39 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
+    var _this = this;
+
     var tribute = new tributejs__WEBPACK_IMPORTED_MODULE_0___default.a({
-      values: [{
-        key: 'Phil Heartman',
-        value: 'pheartman'
-      }, {
-        key: 'Gordon Ramsey',
-        value: 'gramsey'
-      }, {
-        key: 'Gordon Ramsey',
-        value: 'gramsey'
-      }, {
-        key: 'Gordon Ramsey',
-        value: 'gramsey'
-      }, {
-        key: 'Gordon Ramsey',
-        value: 'gramsey'
-      }, {
-        key: 'Gordon Ramsey',
-        value: 'gramsey'
-      }]
+      values: function values(text, cb) {
+        return _this.fetchUser(text, cb);
+      },
+      lookup: 'name',
+      fillAttr: 'name'
     });
     tribute.attach(document.getElementById('input'));
   },
   methods: {
     submit: function submit() {
-      var _this = this;
+      var _this2 = this;
 
       axios.post(this.endpoint, {
         body: this.body
       }).then(function (_ref) {
         var data = _ref.data;
-        _this.body = '';
+        _this2.body = '';
 
-        _this.$emit('addedReply', data);
+        _this2.$emit('addedReply', data);
       })["catch"](function (error) {
         alert(error.response.data.message);
+      });
+    },
+    fetchUser: function fetchUser(text, cb) {
+      axios.get("/api/users?name=".concat(text)).then(function (response) {
+        console.log(response);
+        cb(response.data);
+      })["catch"](function (error) {
+        console.log(error);
+        cb([]);
       });
     }
   }
