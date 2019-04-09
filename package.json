@@ -25,7 +25,7 @@
         "moment": "^2.24.0",
         "prettier": "^1.16.4",
         "resolve-url-loader": "^3.1.0",
-        "sass": "^1.17.4",
+        "sass": "^1.18.0",
         "sass-loader": "^7.1.0",
         "vue": "^2.6.10",
         "vue-template-compiler": "^2.6.10"
