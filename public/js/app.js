@@ -6236,19 +6236,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     var tribute = new tributejs__WEBPACK_IMPORTED_MODULE_0___default.a({
-      trigger: '@',
-      iframe: null,
-      selectClass: 'highlight',
-      selectTemplate: function selectTemplate(item) {
-        return '@' + item.original.value;
-      },
-      menuItemTemplate: function menuItemTemplate(item) {
-        return item.string;
-      },
-      noMatchTemplate: null,
-      menuContainer: document.body,
-      lookup: 'key',
-      fillAttr: 'value',
       values: [{
         key: 'Phil Heartman',
         value: 'pheartman'
@@ -6267,17 +6254,7 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         key: 'Gordon Ramsey',
         value: 'gramsey'
-      }],
-      requireLeadingSpace: true,
-      allowSpaces: false,
-      replaceTextSuffix: '\n',
-      positionMenu: true,
-      spaceSelectsMatch: false,
-      autocompleteMode: false,
-      searchOpts: {
-        pre: '<span>',
-        post: '</span>'
-      }
+      }]
     });
     tribute.attach(document.getElementById('input'));
   },
@@ -6734,10 +6711,29 @@ exports.push([module.i, "\n.position[data-v-3cea7a62] {\n    position: fixed;\n 
 
 exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
 // imports
+exports.i(__webpack_require__(/*! -!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!tributejs/dist/tribute.css */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/tributejs/dist/tribute.css"), "");
+
+// module
+exports.push([module.i, "\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/tributejs/dist/tribute.css":
+/*!**********************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/tributejs/dist/tribute.css ***!
+  \**********************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/*@import '~tributejs/dist/tribute.css';*/\n.tribute-container {\n    position: absolute;\n    top: 0;\n    left: 0;\n    height: auto;\n    max-height: 300px;\n    max-width: 500px;\n    overflow: auto;\n    display: block;\n    z-index: 999999;\n}\n.tribute-container ul {\n    margin: 0;\n    margin-top: 2px;\n    padding: 0;\n    list-style: none;\n    background: #efefef;\n}\n.tribute-container li {\n    padding: 5px 5px;\n    cursor: pointer;\n}\n.tribute-container li.highlight {\n    background: #ddd;\n}\n.tribute-container li span {\n    font-weight: bold;\n}\n.tribute-container li.no-match {\n    cursor: default;\n}\n.tribute-container .menu-highlighted {\n    font-weight: bold;\n}\n", ""]);
+exports.push([module.i, ".tribute-container {\n  position: absolute;\n  top: 0;\n  left: 0;\n  height: auto;\n  max-height: 300px;\n  max-width: 500px;\n  overflow: auto;\n  display: block;\n  z-index: 999999;\n}\n.tribute-container ul {\n    margin: 0;\n    margin-top: 2px;\n    padding: 0;\n    list-style: none;\n    background: #efefef;\n}\n.tribute-container li {\n    padding: 5px 5px;\n    cursor: pointer;\n}\n.tribute-container li.highlight {\n      background: #ddd;\n}\n.tribute-container li span {\n      font-weight: bold;\n}\n.tribute-container li.no-match {\n      cursor: default;\n}\n.tribute-container .menu-highlighted {\n    font-weight: bold;\n}\n", ""]);
 
 // exports
 
