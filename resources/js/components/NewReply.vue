@@ -45,7 +45,8 @@ export default {
         const tribute = new Tribute({
             values: (text, cb) => this.fetchUser(text, cb),
             lookup: 'name',
-            fillAttr: 'name'
+            fillAttr: 'name',
+            allowSpaces: true
         })
         tribute.attach(document.getElementById('input'))
     },

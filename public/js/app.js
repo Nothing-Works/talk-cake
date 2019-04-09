@@ -6242,7 +6242,8 @@ __webpack_require__.r(__webpack_exports__);
         return _this.fetchUser(text, cb);
       },
       lookup: 'name',
-      fillAttr: 'name'
+      fillAttr: 'name',
+      allowSpaces: true
     });
     tribute.attach(document.getElementById('input'));
   },
