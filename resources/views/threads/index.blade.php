@@ -4,25 +4,9 @@
     <div class="container">
         <div class="columns is-centered">
             <div class="column is-half">
-                @forelse($threads as $thread)
-                    <div class="card">
-                        <header class="card-header">
-                            <p class="card-header-title">
-                                <a class="{{ auth()->check()&&$thread->hasUpdate() ? 'has-text-success' : ''}}"
-                                   href="{{$thread->path()}}">{{$thread->title}}</a>
-                            </p>
+                @include('threads._list')
 
-                            <a class="card-header-icon" href="{{$thread->path()}}">{{$thread->replies_count}}
-                                {{\Illuminate\Support\Str::plural('reply',$thread->replies_count)}}</a>
-                        </header>
-                        <div class="card-content">
-                            <p>{{$thread->body}}</p>
-                        </div>
-                        <hr>
-                    </div>
-                @empty
-                    <h1>There is no thread yet</h1>
-                @endforelse
+                {{$threads->links()}}
             </div>
         </div>
     </div>

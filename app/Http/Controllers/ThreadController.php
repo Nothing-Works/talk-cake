@@ -6,7 +6,12 @@ use App\Channel;
 use App\Filters\ThreadFilters;
 use App\Rules\SpamFree;
 use App\Thread;
+use Exception;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 class ThreadController extends Controller
@@ -25,7 +30,7 @@ class ThreadController extends Controller
      * @param Channel       $channel
      * @param ThreadFilters $filters
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Channel $channel, ThreadFilters $filters)
     {
@@ -37,7 +42,7 @@ class ThreadController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -49,9 +54,9 @@ class ThreadController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function store(Request $request)
     {
@@ -72,7 +77,7 @@ class ThreadController extends Controller
      * @param Channel     $channel
      * @param \App\Thread $thread
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Channel $channel, Thread $thread)
     {
@@ -89,9 +94,9 @@ class ThreadController extends Controller
      * @param Channel     $channel
      * @param \App\Thread $thread
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse|Redirector
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function destroy(Channel $channel, Thread $thread)
     {
@@ -105,10 +110,10 @@ class ThreadController extends Controller
     }
 
     /**
-     * @param Channel       $channel
-     * @param ThreadFilters $filters
+     * @param  Channel  $channel
+     * @param  ThreadFilters  $filters
      *
-     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|Thread|Thread[]
+     * @return LengthAwarePaginator
      */
     protected function getThreads(Channel $channel, ThreadFilters $filters)
     {
@@ -118,6 +123,6 @@ class ThreadController extends Controller
             $threads->where('channel_id', $channel->id);
         }
 
-        return $threads->get();
+        return $threads->paginate(5);
     }
 }
