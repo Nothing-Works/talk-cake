@@ -9,6 +9,15 @@
                         <h1 class="title">
                             {{$profileUser->name}}
                         </h1>
+                        @can('update',$profileUser)
+                            <form action="/api/users/{{$profileUser->id}}/avatar" method="POST"
+                                  enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" name="avatar">
+                                <button type="submit">Upload</button>
+                            </form>
+                            @include('layouts.errors')
+                        @endcan
                     </div>
                 </section>
                 <hr>
@@ -21,7 +30,7 @@
                             @include('profiles.activities.'.$record->type,['activity'=>$record])
                         @endif
                     @endforeach
-                    @empty
+                @empty
                     <p>Nothing to show</p>
                 @endforelse
             </div>
