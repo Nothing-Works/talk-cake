@@ -39,4 +39,14 @@ class UserTest extends TestCase
         $reply = factory(Reply::class)->create(['user_id' => $user->id]);
         $this->assertEquals($user->lastReply->id, $reply->id);
     }
+
+    public function test_a_user_can_determine_their_avatar_path()
+    {
+        $user = factory(User::class)->create();
+        $this->assertEquals('/img/default.jpg', $user->avatar());
+
+        $user->avatar_path = 'avatars/me.jpg';
+
+        $this->assertEquals('/storage/avatars/me.jpg', $user->avatar());
+    }
 }
