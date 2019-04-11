@@ -18,6 +18,8 @@
                             </form>
                             @include('layouts.errors')
                         @endcan
+                        <img src="{{asset('/storage/'.$profileUser->avatar_path)}}" width="50" height="50"
+                             alt="avatar">
                     </div>
                 </section>
                 <hr>
