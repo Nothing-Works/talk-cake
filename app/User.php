@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * App\User.
@@ -68,7 +69,7 @@ class User extends Authenticatable
 
     public function avatar(): string
     {
-        return $this->avatar_path ? '/storage/'.$this->avatar_path : '/img/default.jpg';
+        return $this->avatar_path ? Storage::url($this->avatar_path) : '/img/default.jpg';
     }
 
     public function getRouteKeyName()
