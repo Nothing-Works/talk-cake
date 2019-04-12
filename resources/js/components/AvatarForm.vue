@@ -1,10 +1,31 @@
 <template>
     <div>
-        <h1 class="title" v-text="profileUser.name"></h1>
-        <form v-if="canUpdate" method="POST" enctype="multipart/form-data">
-            <image-upload @upload="uploaded"></image-upload>
-        </form>
-        <img :src="avatar" width="50" height="50" alt="avatar" />
+        <div class="card-content">
+            <div class="media">
+                <div class="media-left">
+                    <figure class="image is-48x48">
+                        <img
+                            :src="avatar"
+                            width="50"
+                            height="50"
+                            alt="avatar"
+                        />
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <h1 class="title" v-text="profileUser.name"></h1>
+                    <div class="content">
+                        <form
+                            v-if="canUpdate"
+                            method="POST"
+                            enctype="multipart/form-data"
+                        >
+                            <image-upload @upload="uploaded"></image-upload>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -41,5 +62,3 @@ export default {
     }
 }
 </script>
-
-<!--action="/api/users/{{profileUser.id}}/avatar"-->

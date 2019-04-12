@@ -6071,6 +6071,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'AvatarForm',
@@ -6223,6 +6244,23 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -44554,23 +44592,40 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("h1", {
-      staticClass: "title",
-      domProps: { textContent: _vm._s(_vm.profileUser.name) }
-    }),
-    _vm._v(" "),
-    _vm.canUpdate
-      ? _c(
-          "form",
-          { attrs: { method: "POST", enctype: "multipart/form-data" } },
-          [_c("image-upload", { on: { upload: _vm.uploaded } })],
-          1
-        )
-      : _vm._e(),
-    _vm._v(" "),
-    _c("img", {
-      attrs: { src: _vm.avatar, width: "50", height: "50", alt: "avatar" }
-    })
+    _c("div", { staticClass: "card-content" }, [
+      _c("div", { staticClass: "media" }, [
+        _c("div", { staticClass: "media-left" }, [
+          _c("figure", { staticClass: "image is-48x48" }, [
+            _c("img", {
+              attrs: {
+                src: _vm.avatar,
+                width: "50",
+                height: "50",
+                alt: "avatar"
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "media-content" }, [
+          _c("h1", {
+            staticClass: "title",
+            domProps: { textContent: _vm._s(_vm.profileUser.name) }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "content" }, [
+            _vm.canUpdate
+              ? _c(
+                  "form",
+                  { attrs: { method: "POST", enctype: "multipart/form-data" } },
+                  [_c("image-upload", { on: { upload: _vm.uploaded } })],
+                  1
+                )
+              : _vm._e()
+          ])
+        ])
+      ])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -44662,12 +44717,34 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("input", {
-    attrs: { type: "file", accept: "image/*" },
-    on: { change: _vm.onChange }
-  })
+  return _c("div", { staticClass: "file" }, [
+    _c("label", { staticClass: "file-label" }, [
+      _c("input", {
+        staticClass: "file-input",
+        attrs: { type: "file", accept: "image/*" },
+        on: { change: _vm.onChange }
+      }),
+      _vm._v(" "),
+      _vm._m(0)
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "file-cta" }, [
+      _c("span", { staticClass: "file-icon" }, [
+        _c("i", { staticClass: "fas fa-upload" })
+      ]),
+      _vm._v(" "),
+      _c("span", { staticClass: "file-label" }, [
+        _vm._v("\n                Choose a image…\n            ")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 

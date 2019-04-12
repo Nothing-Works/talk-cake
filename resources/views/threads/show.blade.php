@@ -7,7 +7,7 @@
                     <div class="card has-margin-bottom-50">
                         <header class="card-header">
                             <p class="card-header-title">
-                                <img src="{{$thread->user->avatar()}}" width="50" height="50"
+                                <img src="{{$thread->user->avatar_path}}" width="50" height="50"
                                      alt="avatar">
                                 <a href="/profiles/{{$thread->user->name}}">{{$thread->user->name}}</a>&nbsp;
                                 <span>posted: </span> {{$thread->title}}
