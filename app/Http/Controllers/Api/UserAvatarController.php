@@ -26,6 +26,6 @@ class UserAvatarController extends Controller
                         ->file('avatar')
                         ->store('avatars', 'public'), ]);
 
-        return back();
+        return response([], 204);
     }
 }

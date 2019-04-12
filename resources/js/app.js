@@ -24,6 +24,7 @@ Vue.component('navigation-bar', require('./components/NavigationBar').default)
 Vue.component('flash-message', require('./components/FlashMessage').default)
 Vue.component('thread-view', require('./pages/ThreadView').default)
 Vue.component('paginator-view', require('./components/PaginatorView').default)
+Vue.component('avatar-form', require('./components/AvatarForm').default)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

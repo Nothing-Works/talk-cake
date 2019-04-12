@@ -67,9 +67,9 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function avatar(): string
+    public function getAvatarPathAttribute($avatar): string
     {
-        return $this->avatar_path ? Storage::url($this->avatar_path) : '/img/default.jpg';
+        return $avatar ? Storage::url($avatar) : '/img/default.jpg';
     }
 
     public function getRouteKeyName()

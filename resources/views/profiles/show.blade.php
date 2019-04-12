@@ -6,20 +6,7 @@
             <div class="column is-8">
                 <section class="hero">
                     <div class="hero-body">
-                        <h1 class="title">
-                            {{$profileUser->name}}
-                        </h1>
-                        @can('update',$profileUser)
-                            <form action="/api/users/{{$profileUser->id}}/avatar" method="POST"
-                                  enctype="multipart/form-data">
-                                @csrf
-                                <input type="file" name="avatar">
-                                <button type="submit">Upload</button>
-                            </form>
-                            @include('layouts.errors')
-                        @endcan
-                        <img src="{{$profileUser->avatar()}}" width="50" height="50"
-                             alt="avatar">
+                        <avatar-form :user="{{$profileUser}}"></avatar-form>
                     </div>
                 </section>
                 <hr>
