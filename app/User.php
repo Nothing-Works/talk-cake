@@ -13,12 +13,10 @@ use Illuminate\Support\Facades\Storage;
  * App\User.
  *
  * @property \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
  * @mixin \Eloquent
- *
  * @property int                                                    $id
  * @property string                                                 $name
  * @property string                                                 $email
@@ -29,7 +27,6 @@ use Illuminate\Support\Facades\Storage;
  * @property \Illuminate\Support\Carbon|null                        $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|\App\Reply[]  $replies
  * @property \Illuminate\Database\Eloquent\Collection|\App\Thread[] $threads
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmailVerifiedAt($value)
@@ -38,11 +35,9 @@ use Illuminate\Support\Facades\Storage;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
- *
  * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
  * @property \App\Reply                                               $lastReply
  * @property string|null                                              $avatar_path
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereAvatarPath($value)
  */
 class User extends Authenticatable
