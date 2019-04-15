@@ -17,7 +17,11 @@
                         </div>
                     </header>
                     <div class="card-content">
-                        <p>Something here</p>
+                        @foreach($trending as $thread)
+                            <li class="panel-block">
+                                <a href="{{url($thread->path)}}">{{$thread->title}}</a>
+                            </li>
+                        @endforeach
                     </div>
                 </div>
             </div>
