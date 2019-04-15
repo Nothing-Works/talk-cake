@@ -15,9 +15,14 @@
         </header>
         <div class="card-content">
             <p>{{$thread->body}}</p>
+
         </div>
-        <hr>
+        <footer class="card-footer">
+            <p class="card-footer-item">{{$thread->visits()}} Visits</p>
+        </footer>
     </div>
+    <hr>
+
 @empty
     <h1>There is no thread yet</h1>
 @endforelse
