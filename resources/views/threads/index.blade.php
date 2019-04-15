@@ -17,11 +17,13 @@
                         </div>
                     </header>
                     <div class="card-content">
-                        @foreach($trending as $thread)
+                        @forelse($trending as $thread)
                             <li class="panel-block">
                                 <a href="{{url($thread->path)}}">{{$thread->title}}</a>
                             </li>
-                        @endforeach
+                        @empty
+                            <h1>There is not trending threads</h1>
+                        @endforelse
                     </div>
                 </div>
             </div>
