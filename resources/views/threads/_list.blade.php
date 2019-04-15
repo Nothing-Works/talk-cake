@@ -18,7 +18,7 @@
 
         </div>
         <footer class="card-footer">
-            <p class="card-footer-item">{{$thread->visits()}} Visits</p>
+            <p class="card-footer-item">{{$thread->visits()->count()}} Visits</p>
         </footer>
     </div>
     <hr>

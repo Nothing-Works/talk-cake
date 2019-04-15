@@ -5,12 +5,10 @@ namespace App;
 use App\Events\ThreadHasNewReply;
 use App\Filters\ThreadFilters;
 use App\Traits\RecordsActivity;
-use App\Traits\RecordsVisits;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Redis;
 
 /**
  * App\Thread.
@@ -47,7 +45,7 @@ use Illuminate\Support\Facades\Redis;
  */
 class Thread extends Model
 {
-    use RecordsActivity,RecordsVisits;
+    use RecordsActivity;
 
     protected $guarded = [];
 
@@ -77,6 +75,11 @@ class Thread extends Model
         ]);
 
         return $this;
+    }
+
+    public function visits()
+    {
+        return new Visits($this);
     }
 
     public function subscriptions()
