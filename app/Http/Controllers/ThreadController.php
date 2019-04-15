@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 class ThreadController extends Controller
 {
@@ -85,6 +86,11 @@ class ThreadController extends Controller
             Auth::user()->readThread($thread);
         }
 
+        Redis::zincrby('trending_threads', 1, json_encode([
+            'title' => $thread->title,
+            'path' => $thread->path(),
+        ]));
+
         return view('threads.show', compact('thread'));
     }
 
@@ -110,8 +116,8 @@ class ThreadController extends Controller
     }
 
     /**
-     * @param  Channel  $channel
-     * @param  ThreadFilters  $filters
+     * @param Channel       $channel
+     * @param ThreadFilters $filters
      *
      * @return LengthAwarePaginator
      */
