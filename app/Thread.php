@@ -77,11 +77,6 @@ class Thread extends Model
         return $this;
     }
 
-    public function visits()
-    {
-        return new Visits($this);
-    }
-
     public function subscriptions()
     {
         return $this->hasMany(ThreadSubscription::class);
@@ -112,6 +107,11 @@ class Thread extends Model
                 ->where('user_id', '!=', $reply->user_id)
                 ->each
                 ->notify($reply);
+    }
+
+    public function newVisit()
+    {
+        $this->increment('visits');
     }
 
     public function channel()
