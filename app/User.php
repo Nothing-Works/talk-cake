@@ -39,6 +39,8 @@ use Illuminate\Support\Facades\Storage;
  * @property \App\Reply                                               $lastReply
  * @property string|null                                              $avatar_path
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereAvatarPath($value)
+ * @property int $confirmed
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereConfirmed($value)
  */
 class User extends Authenticatable
 {

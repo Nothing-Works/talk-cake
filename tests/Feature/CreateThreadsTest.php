@@ -11,6 +11,11 @@ use Tests\TestCase;
 
 class CreateThreadsTest extends TestCase
 {
+    public function test_authenticated_users_must_first_confirm_their_email_address_before_creating_threads()
+    {
+        $this->publishThread()->assertRedirect('/threads')->assertSessionHas('flash', 'You must first confirm your email address');
+    }
+
     public function test_authenticated_user_can_create_new_thread()
     {
         $this->actingAs(factory(User::class)->create());

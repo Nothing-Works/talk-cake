@@ -62,7 +62,7 @@ class ThreadController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()
+        $thread = Auth::user()
             ->threads()
             ->create($request->validate([
                 'title' => ['required', new SpamFree()],
@@ -70,7 +70,7 @@ class ThreadController extends Controller
                 'channel_id' => 'required|exists:channels,id',
             ]));
 
-        return redirect('/threads')->with('flash', 'Your thread has been published');
+        return redirect($thread->path())->with('flash', 'Your thread has been published');
     }
 
     /**
