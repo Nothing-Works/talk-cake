@@ -11,18 +11,21 @@ use Tests\TestCase;
 
 class CreateThreadsTest extends TestCase
 {
-    public function test_authenticated_users_must_first_confirm_their_email_address_before_creating_threads()
+    public function test_new_users_must_first_confirm_their_email_address_before_creating_threads()
     {
-        $this->publishThread()->assertRedirect('/threads')->assertSessionHas('flash', 'You must first confirm your email address');
+        $this->actingAs(factory(User::class)->state('unconfirmed')->create());
+        $this->post(route('threads.store'), factory(Thread::class)->raw())
+            ->assertRedirect(route('threads'))
+            ->assertSessionHas('flash', 'You must first confirm your email address');
     }
 
-    public function test_authenticated_user_can_create_new_thread()
+    public function test_user_can_create_new_thread()
     {
         $this->actingAs(factory(User::class)->create());
 
         $thread = factory(Thread::class)->make();
 
-        $this->post('/threads', $thread->toArray());
+        $this->post(route('threads.store'), $thread->toArray());
 
         $this->get($thread->path().'1')
             ->assertSee($thread->title)
@@ -31,14 +34,14 @@ class CreateThreadsTest extends TestCase
 
     public function test_unauthenticated_user_can_not_create_new_thread()
     {
-        $this->post('/threads', [])
-            ->assertRedirect('/login');
+        $this->post(route('threads.store'), [])
+            ->assertRedirect(route('login'));
     }
 
     public function test_unauthenticated_user_can_not_visit_create_page()
     {
-        $this->get('/threads/create')
-            ->assertRedirect('/login');
+        $this->get(route('threads.create'))
+            ->assertRedirect(route('login'));
     }
 
     public function test_it_requires_title()
@@ -68,7 +71,7 @@ class CreateThreadsTest extends TestCase
         $thread = factory(Thread::class)->create();
 
         $this->delete($thread->path())
-            ->assertRedirect('/login');
+            ->assertRedirect(route('login'));
 
         $user = factory(User::class)->create();
 
@@ -101,6 +104,6 @@ class CreateThreadsTest extends TestCase
 
         $thread = factory(Thread::class)->raw($overrides);
 
-        return $this->post('/threads', $thread);
+        return $this->post(route('threads.store'), $thread);
     }
 }
