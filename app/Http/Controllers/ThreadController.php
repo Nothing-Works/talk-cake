@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class ThreadController extends Controller
 {
@@ -69,7 +68,7 @@ class ThreadController extends Controller
                 'title' => ['required', new SpamFree()],
                 'body' => ['required', new SpamFree()],
                 'channel_id' => 'required|exists:channels,id',
-            ]) + ['slug' => Str::slug($request->input('title'))]);
+            ]) + ['slug' => $request->input('title')]);
 
         return redirect($thread->path())->with('flash', 'Your thread has been published');
     }

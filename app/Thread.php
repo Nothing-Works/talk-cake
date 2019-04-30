@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 /**
  * App\Thread.
@@ -142,6 +143,15 @@ class Thread extends Model
         return 'slug';
     }
 
+    public function setSlugAttribute($value)
+    {
+        if (static::whereSlug($slug = Str::slug($value))->exists()) {
+            $slug = $this->incrementSlug($slug);
+        }
+
+        $this->attributes['slug'] = $slug;
+    }
+
     /**
      * The "booting" method of the model.
      *
@@ -154,5 +164,18 @@ class Thread extends Model
         static::addGlobalScope('replyCount', function (Builder $builder) {
             $builder->withCount('replies');
         });
+    }
+
+    protected function incrementSlug($slug)
+    {
+        $maxSlug = static::whereTitle($this->title)->latest('id')->value('slug');
+
+        if (is_numeric($maxSlug[-1])) {
+            return  preg_replace_callback('/(\d+)$/', function ($matches) {
+                return $matches[1] + 1;
+            }, $maxSlug);
+        }
+
+        return "{$slug}-2";
     }
 }

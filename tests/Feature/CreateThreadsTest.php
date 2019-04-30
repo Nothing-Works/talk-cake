@@ -38,6 +38,27 @@ class CreateThreadsTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
+    public function test_a_thread_requires_a_unique_slug()
+    {
+        $this->actingAs(factory(User::class)->create());
+
+        $data = factory(Thread::class)->create(['title' => 'Foo Title', 'slug' => 'foo-title']);
+
+        $this->assertEquals($data->fresh()->slug, 'foo-title');
+
+        $thread = factory(Thread::class)->raw(['title' => 'Foo Title']);
+
+        $this->post(route('threads.store'), $thread);
+
+        $this->assertTrue(Thread::whereSlug('foo-title-2')->exists());
+
+        $thread3 = factory(Thread::class)->raw(['title' => 'Foo Title']);
+
+        $this->post(route('threads.store'), $thread3);
+
+        $this->assertTrue(Thread::whereSlug('foo-title-3')->exists());
+    }
+
     public function test_unauthenticated_user_can_not_visit_create_page()
     {
         $this->get(route('threads.create'))
