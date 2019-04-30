@@ -29,7 +29,7 @@ class ThreadTest extends TestCase
 
     public function test_it_has_a_path()
     {
-        $this->assertEquals('/threads/'.$this->thread->channel->slug.'/'.$this->thread->id, $this->thread->path());
+        $this->assertEquals('/threads/'.$this->thread->channel->slug.'/'.$this->thread->slug, $this->thread->path());
     }
 
     public function test_it_has_a_user()

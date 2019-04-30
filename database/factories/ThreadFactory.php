@@ -1,11 +1,15 @@
 <?php
 
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 $factory->define(App\Thread::class, function (Faker $faker) {
+    $title = $faker->sentence;
+
     return [
+        'slug' => Str::slug($title),
         'visits' => 0,
-        'title' => $faker->sentence,
+        'title' => $title,
         'body' => $faker->paragraph,
         'user_id' => function () {
             return factory(App\User::class)->create()->id;
