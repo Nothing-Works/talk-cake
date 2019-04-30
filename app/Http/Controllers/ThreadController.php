@@ -65,12 +65,11 @@ class ThreadController extends Controller
     {
         $thread = Auth::user()
             ->threads()
-            ->create($request->merge(['slug' => Str::slug($request->input('title'))])->validate([
+            ->create($request->validate([
                 'title' => ['required', new SpamFree()],
                 'body' => ['required', new SpamFree()],
                 'channel_id' => 'required|exists:channels,id',
-                'slug' => 'required',
-            ]));
+            ]) + ['slug' => Str::slug($request->input('title'))]);
 
         return redirect($thread->path())->with('flash', 'Your thread has been published');
     }
