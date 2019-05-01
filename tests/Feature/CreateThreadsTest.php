@@ -11,6 +11,19 @@ use Tests\TestCase;
 
 class CreateThreadsTest extends TestCase
 {
+    public function test_a_thread_with_a_title_that_ends_in_a_number_should_generate_the_proper_slug()
+    {
+        $this->actingAs(factory(User::class)->create());
+
+        factory(Thread::class)->create(['title' => 'Foo Title 24', 'slug' => 'foo-title-24']);
+
+        $thread = factory(Thread::class)->raw(['title' => 'Foo Title 24']);
+
+        $this->post(route('threads.store'), $thread);
+
+        $this->assertTrue(Thread::whereSlug('foo-title-24-2')->exists());
+    }
+
     public function test_new_users_must_first_confirm_their_email_address_before_creating_threads()
     {
         $this->actingAs(factory(User::class)->state('unconfirmed')->create());
