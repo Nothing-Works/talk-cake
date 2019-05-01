@@ -22,6 +22,7 @@ use Illuminate\Support\Str;
  * @property \Illuminate\Support\Carbon|null                       $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies
  * @property \App\User                                             $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread query()
@@ -32,16 +33,22 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUserId($value)
  * @mixin \Eloquent
+ *
  * @property \App\Channel $channel
  * @property int          $channel_id
+ *
  * @method static                                                  \Illuminate\Database\Eloquent\Builder|\App\Thread whereChannelId($value)
  * @method static\Illuminate\Database\Eloquent\Builder|\App\Thread filter($filters)
+ *
  * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[]           $activities
  * @property \Illuminate\Database\Eloquent\Collection|\App\ThreadSubscription[] $subscriptions
  * @property mixed                                                              $is_subscribed
  * @property int                                                                $visits
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereVisits($value)
+ *
  * @property string $slug
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereSlug($value)
  */
 class Thread extends Model
@@ -146,7 +153,7 @@ class Thread extends Model
     public function setSlugAttribute($value)
     {
         if (static::whereSlug($slug = Str::slug($value))->exists()) {
-            $slug = $this->anotherSlug($slug);
+            $slug = "${slug}-".$this->id;
         }
 
         $this->attributes['slug'] = $slug;
@@ -164,15 +171,9 @@ class Thread extends Model
         static::addGlobalScope('replyCount', function (Builder $builder) {
             $builder->withCount('replies');
         });
-    }
 
-    protected function anotherSlug($slug, $count = 2)
-    {
-        $original = $slug;
-        while (static::whereSlug($slug)->exists()) {
-            $slug = "${original}-".$count++;
-        }
-
-        return $slug;
+        static::created(function (Thread $thread) {
+            $thread->update(['slug' => $thread->title]);
+        });
     }
 }

@@ -68,7 +68,7 @@ class ThreadController extends Controller
                 'title' => ['required', new SpamFree()],
                 'body' => ['required', new SpamFree()],
                 'channel_id' => 'required|exists:channels,id',
-            ]) + ['slug' => $request->input('title')]);
+            ]));
 
         return redirect($thread->path())->with('flash', 'Your thread has been published');
     }

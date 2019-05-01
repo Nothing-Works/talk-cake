@@ -15,7 +15,7 @@ class CreateThreadsTest extends TestCase
     {
         $this->actingAs(factory(User::class)->create());
 
-        factory(Thread::class)->create(['title' => 'Foo Title 24', 'slug' => 'foo-title-24']);
+        factory(Thread::class)->create(['title' => 'Foo Title 24']);
 
         $thread = factory(Thread::class)->raw(['title' => 'Foo Title 24']);
 
@@ -55,7 +55,7 @@ class CreateThreadsTest extends TestCase
     {
         $this->actingAs(factory(User::class)->create());
 
-        $data = factory(Thread::class)->create(['title' => 'Foo Title', 'slug' => 'foo-title']);
+        $data = factory(Thread::class)->create(['title' => 'Foo Title']);
 
         $this->assertEquals($data->fresh()->slug, 'foo-title');
 
@@ -64,12 +64,6 @@ class CreateThreadsTest extends TestCase
         $this->post(route('threads.store'), $thread);
 
         $this->assertTrue(Thread::whereSlug('foo-title-2')->exists());
-
-        $thread3 = factory(Thread::class)->raw(['title' => 'Foo Title']);
-
-        $this->post(route('threads.store'), $thread3);
-
-        $this->assertTrue(Thread::whereSlug('foo-title-3')->exists());
     }
 
     public function test_unauthenticated_user_can_not_visit_create_page()
