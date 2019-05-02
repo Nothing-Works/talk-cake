@@ -15,6 +15,7 @@ class CreateThreadsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('channel_id');
+            $table->unsignedInteger('best_reply_id')->nullable();
             $table->unsignedInteger('visits')->default(0);
             $table->string('title');
             $table->string('slug')->unique()->nullable();

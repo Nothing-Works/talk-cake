@@ -62,6 +62,11 @@ class Reply extends Model
         return  User::whereIn('name', $matches[1])->get();
     }
 
+    public function isBest()
+    {
+        return $this->id == $this->thread->best_reply_id;
+    }
+
     public function path()
     {
         return $this->thread->path().'#reply-'.$this->id;

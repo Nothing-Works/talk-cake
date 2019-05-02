@@ -22,7 +22,6 @@ use Illuminate\Support\Str;
  * @property \Illuminate\Support\Carbon|null                       $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies
  * @property \App\User                                             $user
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread query()
@@ -33,23 +32,19 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUserId($value)
  * @mixin \Eloquent
- *
  * @property \App\Channel $channel
  * @property int          $channel_id
- *
  * @method static                                                  \Illuminate\Database\Eloquent\Builder|\App\Thread whereChannelId($value)
  * @method static\Illuminate\Database\Eloquent\Builder|\App\Thread filter($filters)
- *
  * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[]           $activities
  * @property \Illuminate\Database\Eloquent\Collection|\App\ThreadSubscription[] $subscriptions
  * @property mixed                                                              $is_subscribed
  * @property int                                                                $visits
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereVisits($value)
- *
  * @property string $slug
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereSlug($value)
+ * @property int|null $best_reply_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereBestReplyId($value)
  */
 class Thread extends Model
 {
@@ -157,6 +152,11 @@ class Thread extends Model
         }
 
         $this->attributes['slug'] = $slug;
+    }
+
+    public function setBestReply(Reply $reply)
+    {
+        $this->update(['best_reply_id' => $reply->id]);
     }
 
     /**
