@@ -4,13 +4,20 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 require('./bootstrap')
+const authorizations = require('./authorizations')
 
 window.Vue = require('vue')
 
-window.Vue.prototype.authorize = handler => {
-    const user = window.shared.user
-    return user ? handler(user) : false
+window.Vue.prototype.authorize = (...params) => {
+    if (!window.shared.signedIn) return false
+
+    if (typeof params[0] === 'string') {
+        return authorizations[params[0]](params[1])
+    }
+    return params[0](window.shared.user)
 }
+
+window.Vue.prototype.signedIn = window.shared.signedIn
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

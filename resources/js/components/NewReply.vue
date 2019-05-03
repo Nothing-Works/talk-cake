@@ -35,11 +35,6 @@ export default {
             body: ''
         }
     },
-    computed: {
-        signedIn() {
-            return window.shared.signedIn
-        }
-    },
 
     mounted() {
         const tribute = new Tribute({

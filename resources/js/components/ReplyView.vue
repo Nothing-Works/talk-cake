@@ -32,7 +32,7 @@
                 </div>
             </div>
             <footer class="card-footer level">
-                <div v-if="canUpdate">
+                <div v-if="authorize('updateReply', data)">
                     <div class="level-left">
                         <button
                             type="button"
@@ -102,26 +102,17 @@ export default {
             id: this.reply.id,
             editing: false,
             body: this.reply.body,
-            isBest: false
+            isBest: false,
+            data: this.reply
         }
     },
     computed: {
-        signedIn() {
-            return window.shared.signedIn
-        },
-        canUpdate() {
-            return this.authorize(user => this.reply.user_id === user.id)
-        },
-        canMarkBestReply() {},
         ago() {
             return moment
                 .utc(this.reply.created_at)
                 .local()
                 .fromNow()
         }
-    },
-    mounted() {
-        console.log('mounter')
     },
     methods: {
         markBestReply() {
@@ -145,7 +136,6 @@ export default {
                     alert(error.response.data.message)
                 })
         },
-
         destroy() {
             axios
                 .delete(`/replies/${this.reply.id}`)

@@ -6365,11 +6365,6 @@ __webpack_require__.r(__webpack_exports__);
       body: ''
     };
   },
-  computed: {
-    signedIn: function signedIn() {
-      return window.shared.signedIn;
-    }
-  },
   mounted: function mounted() {
     var _this = this;
 
@@ -6656,27 +6651,14 @@ __webpack_require__.r(__webpack_exports__);
       id: this.reply.id,
       editing: false,
       body: this.reply.body,
-      isBest: false
+      isBest: false,
+      data: this.reply
     };
   },
   computed: {
-    signedIn: function signedIn() {
-      return window.shared.signedIn;
-    },
-    canUpdate: function canUpdate() {
-      var _this = this;
-
-      return this.authorize(function (user) {
-        return _this.reply.user_id === user.id;
-      });
-    },
-    canMarkBestReply: function canMarkBestReply() {},
     ago: function ago() {
       return moment__WEBPACK_IMPORTED_MODULE_1___default.a.utc(this.reply.created_at).local().fromNow();
     }
-  },
-  mounted: function mounted() {
-    console.log('mounter');
   },
   methods: {
     markBestReply: function markBestReply() {
@@ -6690,22 +6672,22 @@ __webpack_require__.r(__webpack_exports__);
       this.body = this.reply.body;
     },
     save: function save() {
-      var _this2 = this;
+      var _this = this;
 
       axios.patch("/replies/".concat(this.reply.id), {
         body: this.body
       }).then(function (response) {
-        _this2.body = response.data;
-        _this2.editing = false;
+        _this.body = response.data;
+        _this.editing = false;
       })["catch"](function (error) {
         alert(error.response.data.message);
       });
     },
     destroy: function destroy() {
-      var _this3 = this;
+      var _this2 = this;
 
       axios["delete"]("/replies/".concat(this.reply.id)).then(function (response) {
-        _this3.$emit('deleted', _this3.id);
+        _this2.$emit('deleted', _this2.id);
 
         console.log(response);
       })["catch"](function (error) {
@@ -45065,7 +45047,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("footer", { staticClass: "card-footer level" }, [
-            _vm.canUpdate
+            _vm.authorize("updateReply", _vm.data)
               ? _c("div", [
                   _c("div", { staticClass: "level-left" }, [
                     _c(
@@ -57400,12 +57382,25 @@ module.exports = function(module) {
  */
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+var authorizations = __webpack_require__(/*! ./authorizations */ "./resources/js/authorizations.js");
+
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 
-window.Vue.prototype.authorize = function (handler) {
-  var user = window.shared.user;
-  return user ? handler(user) : false;
+window.Vue.prototype.authorize = function () {
+  if (!window.shared.signedIn) return false;
+
+  for (var _len = arguments.length, params = new Array(_len), _key = 0; _key < _len; _key++) {
+    params[_key] = arguments[_key];
+  }
+
+  if (typeof params[0] === 'string') {
+    return authorizations[params[0]](params[1]);
+  }
+
+  return params[0](window.shared.user);
 };
+
+window.Vue.prototype.signedIn = window.shared.signedIn;
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -57415,7 +57410,6 @@ window.Vue.prototype.authorize = function (handler) {
  */
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
 
 Vue.component('navigation-bar', __webpack_require__(/*! ./components/NavigationBar */ "./resources/js/components/NavigationBar.vue")["default"]);
 Vue.component('flash-message', __webpack_require__(/*! ./components/FlashMessage */ "./resources/js/components/FlashMessage.vue")["default"]);
@@ -57431,6 +57425,22 @@ Vue.component('avatar-form', __webpack_require__(/*! ./components/AvatarForm */ 
 var app = new Vue({
   el: '#app'
 });
+
+/***/ }),
+
+/***/ "./resources/js/authorizations.js":
+/*!****************************************!*\
+  !*** ./resources/js/authorizations.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var user = window.shared.user;
+module.exports = {
+  updateReply: function updateReply(reply) {
+    return reply.user_id === user.id;
+  }
+};
 
 /***/ }),
 
