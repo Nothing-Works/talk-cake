@@ -6614,6 +6614,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6633,7 +6655,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       id: this.reply.id,
       editing: false,
-      body: this.reply.body
+      body: this.reply.body,
+      isBest: false
     };
   },
   computed: {
@@ -6647,6 +6670,7 @@ __webpack_require__.r(__webpack_exports__);
         return _this.reply.user_id === user.id;
       });
     },
+    canMarkBestReply: function canMarkBestReply() {},
     ago: function ago() {
       return moment__WEBPACK_IMPORTED_MODULE_1___default.a.utc(this.reply.created_at).local().fromNow();
     }
@@ -6655,6 +6679,9 @@ __webpack_require__.r(__webpack_exports__);
     console.log('mounter');
   },
   methods: {
+    markBestReply: function markBestReply() {
+      this.isBest = true;
+    },
     showInput: function showInput() {
       this.editing = true;
     },
@@ -44968,7 +44995,10 @@ var render = function() {
     [
       _c(
         "header",
-        { staticClass: "card-header" },
+        {
+          staticClass: "card-header",
+          class: _vm.isBest ? "has-background-success" : ""
+        },
         [
           _c("div", { staticClass: "card-header-title" }, [
             _c("a", {
@@ -45034,54 +45064,88 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm.canUpdate
-            ? _c("footer", { staticClass: "card-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "button is-large has-text-info",
-                    attrs: { type: "button" },
-                    on: { click: _vm.destroy }
-                  },
-                  [_vm._v("\n                Delete\n            ")]
-                ),
-                _vm._v(" "),
-                _vm.editing
-                  ? _c("div", [
-                      _c(
-                        "button",
-                        {
-                          staticClass: "button is-large has-text-info",
-                          attrs: { type: "submit" }
-                        },
-                        [_vm._v("\n                    Save\n                ")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "button is-large has-text-info",
-                          attrs: { type: "button" },
-                          on: { click: _vm.cancel }
-                        },
-                        [
-                          _vm._v(
-                            "\n                    Cancel\n                "
-                          )
-                        ]
-                      )
-                    ])
-                  : _c(
+          _c("footer", { staticClass: "card-footer level" }, [
+            _vm.canUpdate
+              ? _c("div", [
+                  _c("div", { staticClass: "level-left" }, [
+                    _c(
                       "button",
                       {
                         staticClass: "button is-large has-text-info",
                         attrs: { type: "button" },
-                        on: { click: _vm.showInput }
+                        on: { click: _vm.destroy }
                       },
-                      [_vm._v("\n                edit\n            ")]
-                    )
-              ])
-            : _vm._e()
+                      [
+                        _vm._v(
+                          "\n                        Delete\n                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.editing
+                      ? _c("div", [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "button is-large has-text-info",
+                              attrs: { type: "submit" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Save\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "button is-large has-text-info",
+                              attrs: { type: "button" },
+                              on: { click: _vm.cancel }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            Cancel\n                        "
+                              )
+                            ]
+                          )
+                        ])
+                      : _c(
+                          "button",
+                          {
+                            staticClass: "button is-large has-text-info",
+                            attrs: { type: "button" },
+                            on: { click: _vm.showInput }
+                          },
+                          [
+                            _vm._v(
+                              "\n                        edit\n                    "
+                            )
+                          ]
+                        )
+                  ])
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "level-right" }, [
+              !_vm.isBest
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "button is-large has-text-info",
+                      attrs: { type: "button" },
+                      on: { click: _vm.markBestReply }
+                    },
+                    [
+                      _vm._v(
+                        "\n                    Best Reply?\n                "
+                      )
+                    ]
+                  )
+                : _vm._e()
+            ])
+          ])
         ]
       )
     ]

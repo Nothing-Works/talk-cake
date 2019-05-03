@@ -1,6 +1,9 @@
 <template>
     <div :id="'reply-' + id" class="card has-margin-bottom-25">
-        <header class="card-header">
+        <header
+            class="card-header"
+            :class="isBest ? 'has-background-success' : ''"
+        >
             <div class="card-header-title">
                 <a
                     :href="'/profiles/' + reply.user.name"
@@ -28,34 +31,53 @@
                     <span v-else v-html="body"></span>
                 </div>
             </div>
-            <footer v-if="canUpdate" class="card-footer">
-                <button
-                    type="button"
-                    class="button is-large has-text-info"
-                    @click="destroy"
-                >
-                    Delete
-                </button>
-                <div v-if="editing">
-                    <button type="submit" class="button is-large has-text-info">
-                        Save
-                    </button>
+            <footer class="card-footer level">
+                <div v-if="canUpdate">
+                    <div class="level-left">
+                        <button
+                            type="button"
+                            class="button is-large has-text-info"
+                            @click="destroy"
+                        >
+                            Delete
+                        </button>
+
+                        <div v-if="editing">
+                            <button
+                                type="submit"
+                                class="button is-large has-text-info"
+                            >
+                                Save
+                            </button>
+                            <button
+                                type="button"
+                                class="button is-large has-text-info"
+                                @click="cancel"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                        <button
+                            v-else
+                            type="button"
+                            class="button is-large has-text-info"
+                            @click="showInput"
+                        >
+                            edit
+                        </button>
+                    </div>
+                </div>
+
+                <div class="level-right">
                     <button
+                        v-if="!isBest"
                         type="button"
                         class="button is-large has-text-info"
-                        @click="cancel"
+                        @click="markBestReply"
                     >
-                        Cancel
+                        Best Reply?
                     </button>
                 </div>
-                <button
-                    v-else
-                    type="button"
-                    class="button is-large has-text-info"
-                    @click="showInput"
-                >
-                    edit
-                </button>
             </footer>
         </form>
     </div>
@@ -79,7 +101,8 @@ export default {
         return {
             id: this.reply.id,
             editing: false,
-            body: this.reply.body
+            body: this.reply.body,
+            isBest: false
         }
     },
     computed: {
@@ -89,6 +112,7 @@ export default {
         canUpdate() {
             return this.authorize(user => this.reply.user_id === user.id)
         },
+        canMarkBestReply() {},
         ago() {
             return moment
                 .utc(this.reply.created_at)
@@ -100,6 +124,9 @@ export default {
         console.log('mounter')
     },
     methods: {
+        markBestReply() {
+            this.isBest = true
+        },
         showInput() {
             this.editing = true
         },
