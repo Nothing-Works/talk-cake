@@ -102,7 +102,7 @@ export default {
             id: this.reply.id,
             editing: false,
             body: this.reply.body,
-            isBest: false,
+            isBest: this.reply.isBest,
             data: this.reply
         }
     },
@@ -114,9 +114,22 @@ export default {
                 .fromNow()
         }
     },
+    created() {
+        window.events.$on(
+            'best-reply-selected',
+            id => (this.isBest = id === this.id)
+        )
+    },
     methods: {
         markBestReply() {
-            this.isBest = true
+            axios
+                .post(`/replies/${this.id}/best`)
+                .then(() => {
+                    window.events.$emit('best-reply-selected', this.id)
+                })
+                .catch(error => {
+                    alert(error.response.data.message)
+                })
         },
         showInput() {
             this.editing = true
