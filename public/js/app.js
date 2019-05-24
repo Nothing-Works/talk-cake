@@ -6672,6 +6672,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
+    console.log(this.reply.thread.user_id);
     window.events.$on('best-reply-selected', function (id) {
       return _this.isBest = id === _this.id;
     });
@@ -45080,7 +45081,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("footer", { staticClass: "card-footer level" }, [
-            _vm.authorize("updateReply", _vm.data)
+            _vm.authorize("owns", _vm.reply)
               ? _c("div", [
                   _c("div", { staticClass: "level-left" }, [
                     _c(
@@ -45143,23 +45144,25 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("div", { staticClass: "level-right" }, [
-              !_vm.isBest
-                ? _c(
-                    "button",
-                    {
-                      staticClass: "button is-large has-text-info",
-                      attrs: { type: "button" },
-                      on: { click: _vm.markBestReply }
-                    },
-                    [
-                      _vm._v(
-                        "\n                    Best Reply?\n                "
+            _vm.authorize("owns", _vm.reply.thread)
+              ? _c("div", { staticClass: "level-right" }, [
+                  !_vm.isBest
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "button is-large has-text-info",
+                          attrs: { type: "button" },
+                          on: { click: _vm.markBestReply }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    Best Reply?\n                "
+                          )
+                        ]
                       )
-                    ]
-                  )
-                : _vm._e()
-            ])
+                    : _vm._e()
+                ])
+              : _vm._e()
           ])
         ]
       )
@@ -57450,8 +57453,9 @@ var app = new Vue({
 
 var user = window.shared.user;
 module.exports = {
-  updateReply: function updateReply(reply) {
-    return reply.user_id === user.id;
+  owns: function owns(model) {
+    var prop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'user_id';
+    return model[prop] === user.id;
   }
 };
 

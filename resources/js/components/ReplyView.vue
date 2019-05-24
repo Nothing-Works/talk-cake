@@ -32,7 +32,7 @@
                 </div>
             </div>
             <footer class="card-footer level">
-                <div v-if="authorize('updateReply', data)">
+                <div v-if="authorize('owns', reply)">
                     <div class="level-left">
                         <button
                             type="button"
@@ -68,7 +68,7 @@
                     </div>
                 </div>
 
-                <div class="level-right">
+                <div v-if="authorize('owns', reply.thread)" class="level-right">
                     <button
                         v-if="!isBest"
                         type="button"
@@ -115,6 +115,7 @@ export default {
         }
     },
     created() {
+        console.log(this.reply.thread.user_id)
         window.events.$on(
             'best-reply-selected',
             id => (this.isBest = id === this.id)
