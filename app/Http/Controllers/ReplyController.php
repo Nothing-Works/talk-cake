@@ -7,7 +7,13 @@ use App\Http\Requests\ReplyForm;
 use App\Reply;
 use App\Rules\SpamFree;
 use App\Thread;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 
 class ReplyController extends Controller
@@ -26,7 +32,7 @@ class ReplyController extends Controller
      * @param Channel $channel
      * @param Thread  $thread
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return LengthAwarePaginator
      */
     public function index(Channel $channel, Thread $thread)
     {
@@ -41,7 +47,7 @@ class ReplyController extends Controller
      * @param Thread                   $thread
      * @param ReplyForm                $form
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse|Redirector
      */
     public function store(Request $request, Channel $channel, Thread $thread, ReplyForm $form)
     {
@@ -57,9 +63,9 @@ class ReplyController extends Controller
      * @param \Illuminate\Http\Request $request
      * @param \App\Reply               $reply
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws AuthorizationException
      */
     public function update(Request $request, Reply $reply)
     {
@@ -77,13 +83,14 @@ class ReplyController extends Controller
      *
      * @param \App\Reply $reply
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function destroy(Reply $reply)
     {
         $this->authorize('delete', $reply);
+
         $status = $reply->delete();
 
         return response()->json($status);

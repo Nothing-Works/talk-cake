@@ -40,10 +40,10 @@ Route::delete('/profiles/{user}/notifications/{notification}', 'UserNotification
 Route::get('/profiles/{user}/notifications', 'UserNotificationController@index');
 
 Route::delete('/threads/{channel}/{thread}', 'ThreadController@destroy');
-Route::delete('/replies/{reply}', 'ReplyController@destroy');
+Route::delete('/replies/{reply}', 'ReplyController@destroy')->name('replies.destroy');
 Route::patch('/replies/{reply}', 'ReplyController@update');
 
 Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@store');
 Route::delete('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@destroy');
 
-Route::post('/replies/{reply}/best','BestReplyController@store')->name('best-reply.store');
+Route::post('/replies/{reply}/best', 'BestReplyController@store')->name('best-reply.store');

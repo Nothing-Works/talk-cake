@@ -6,6 +6,7 @@ use App\Traits\Favoritable;
 use App\Traits\RecordsActivity;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * App\Reply.
@@ -18,7 +19,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \App\Thread                     $thread
  * @property \App\User                       $user
- *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply query()
@@ -29,11 +29,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply whereUserId($value)
  * @mixin \Eloquent
- *
  * @property \Illuminate\Database\Eloquent\Collection|\App\Favorite[] $favorites
  * @property mixed                                                    $favorites_count
  * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
  * @property mixed                                                    $is_favorited
+ * @property-read mixed $is_best
  */
 class Reply extends Model
 {
@@ -56,7 +56,7 @@ class Reply extends Model
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function mentionedUsers()
     {
@@ -88,5 +88,15 @@ class Reply extends Model
     public function setBodyAttribute($body)
     {
         $this->attributes['body'] = preg_replace('/@([\w\-]+)/', '<a href="/profiles/$1">$0</a>', $body);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleted(function (Reply $reply) {
+            if ($reply->isBest()) {
+                $reply->thread->update(['best_reply_id' => null]);
+            }
+        });
     }
 }
