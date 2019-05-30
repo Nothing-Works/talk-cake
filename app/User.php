@@ -75,6 +75,11 @@ class User extends Authenticatable
         return $avatar ? Storage::url($avatar) : '/img/default.jpg';
     }
 
+    public function isAdmin()
+    {
+        return in_array($this->name, ['andy']);
+    }
+
     public function getRouteKeyName()
     {
         return 'name';

@@ -47,3 +47,5 @@ Route::post('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionCont
 Route::delete('/threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionController@destroy');
 
 Route::post('/replies/{reply}/best', 'BestReplyController@store')->name('best-reply.store');
+
+Route::post('/lock-thread/{thread}', 'LockThreadController@store')->name('lock-thread.store')->middleware('admin');
