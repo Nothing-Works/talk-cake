@@ -45,6 +45,8 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereSlug($value)
  * @property int|null $best_reply_id
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereBestReplyId($value)
+ * @property int $locked
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereLocked($value)
  */
 class Thread extends Model
 {
@@ -55,6 +57,10 @@ class Thread extends Model
     protected $with = ['user', 'channel'];
 
     protected $appends = ['isSubscribed'];
+
+    protected $casts = [
+        'locked' => 'boolean',
+    ];
 
     public function path()
     {
@@ -78,6 +84,11 @@ class Thread extends Model
         ]);
 
         return $this;
+    }
+
+    public function lockThread()
+    {
+        $this->update(['locked' => true]);
     }
 
     public function subscriptions()
