@@ -91,6 +91,11 @@ class Thread extends Model
         $this->update(['locked' => true]);
     }
 
+    public function unlockThread()
+    {
+        $this->update(['locked' => false]);
+    }
+
     public function subscriptions()
     {
         return $this->hasMany(ThreadSubscription::class);

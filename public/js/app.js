@@ -6915,20 +6915,28 @@ __webpack_require__.r(__webpack_exports__);
     SubscribeButton: _components_SubscribeButton__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: {
-    count: {
-      type: Number,
-      "default": 0
-    },
-    dataLocked: {
-      type: Boolean,
-      "default": false
+    dataThread: {
+      type: Object,
+      "default": function _default() {
+        return {};
+      }
     }
   },
   data: function data() {
     return {
-      locked: this.dataLocked,
-      repliesCount: this.count
+      locked: this.dataThread.locked,
+      repliesCount: this.dataThread.count,
+      slug: this.dataThread.slug
     };
+  },
+  methods: {
+    toggleThread: function toggleThread() {
+      var _this = this;
+
+      axios[this.locked ? 'delete' : 'post']("/lock-thread/".concat(this.slug)).then(function () {
+        return _this.locked = !_this.locked;
+      });
+    }
   }
 });
 

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-    <thread-view inline-template :count="{{$thread->replies_count}}" :data-locked="@json($thread->locked)">
+    <thread-view inline-template :data-thread="{{$thread}}">
         <div class="container">
             <div class="columns">
                 <div class="column is-8">
@@ -41,10 +41,8 @@
                                 </p>
                                 <subscribe-button :subscribed=@json($thread->isSubscribed)></subscribe-button>
 
-                                <button class="button" v-if="authorize('isAdmin') && !locked"
-                                        @click="locked=true">
-                                    Lock
-                                </button>
+                                <button class="button" v-if="authorize('isAdmin')"
+                                        @click="toggleThread" v-text="locked ? 'Unlock':'Lock'"></button>
                             </div>
                         </div>
                     </div>

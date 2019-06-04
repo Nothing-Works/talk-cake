@@ -5,19 +5,25 @@ export default {
     name: 'ThreadView',
     components: { RepliesView, SubscribeButton },
     props: {
-        count: {
-            type: Number,
-            default: 0
-        },
-        dataLocked: {
-            type: Boolean,
-            default: false
+        dataThread: {
+            type: Object,
+            default() {
+                return {}
+            }
         }
     },
     data() {
         return {
-            locked: this.dataLocked,
-            repliesCount: this.count
+            locked: this.dataThread.locked,
+            repliesCount: this.dataThread.count,
+            slug: this.dataThread.slug
+        }
+    },
+    methods: {
+        toggleThread() {
+            axios[this.locked ? 'delete' : 'post'](
+                `/lock-thread/${this.slug}`
+            ).then(() => (this.locked = !this.locked))
         }
     }
 }

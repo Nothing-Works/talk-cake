@@ -36,4 +36,12 @@ class LockThreadTest extends TestCase
         $this->post(route('lock-thread.store', $thread));
         $this->assertTrue($thread->fresh()->locked);
     }
+
+    public function test_administrators_can_unlock_threads()
+    {
+        $this->actingAs(factory(User::class)->states('admin')->create());
+        $thread = factory(Thread::class)->create(['locked' => true]);
+        $this->delete(route('lock-thread.destroy', $thread));
+        $this->assertFalse($thread->fresh()->locked);
+    }
 }

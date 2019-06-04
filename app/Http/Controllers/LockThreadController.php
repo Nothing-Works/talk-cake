@@ -12,4 +12,11 @@ class LockThreadController extends Controller
 
         return response('You locked a thread', 200);
     }
+
+    public function destroy(Thread $thread)
+    {
+        $thread->unlockThread();
+
+        return response('You unlocked a thread', 200);
+    }
 }
