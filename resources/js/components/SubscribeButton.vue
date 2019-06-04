@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="signedIn">
         <button :class="['button', active ? 'is-danger' : '']" @click="toggle">
             Subscribe
         </button>

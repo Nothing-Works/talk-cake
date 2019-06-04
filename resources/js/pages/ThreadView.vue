@@ -8,10 +8,15 @@ export default {
         count: {
             type: Number,
             default: 0
+        },
+        dataLocked: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
         return {
+            locked: this.dataLocked,
             repliesCount: this.count
         }
     }
