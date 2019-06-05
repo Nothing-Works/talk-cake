@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Zttp\Zttp;
 
 class ThreadController extends Controller
 {
@@ -62,6 +63,16 @@ class ThreadController extends Controller
      */
     public function store(Request $request)
     {
+        $response = Zttp::asFormParams()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => config('services.recaptcha.secret'),
+            'response' => $request->input('g-recaptcha-response'),
+            'remoteip' => $_SERVER['REMOTE_ADDR'],
+            ]);
+
+        if (!$response->json()['success']) {
+            throw new Exception('Recaptcha failed');
+        }
+
         $thread = Auth::user()
             ->threads()
             ->create($request->validate([

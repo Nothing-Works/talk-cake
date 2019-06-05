@@ -41,6 +41,7 @@
                             <div class="field">
                                 <div class="control">
                                     <button type="submit" class="button is-link">Submit</button>
+                                    <div class="g-recaptcha" data-sitekey="6LeaNqcUAAAAAMdZa08Dx8aOPS7J-LtuayiNrFZ-"></div>
                                 </div>
                             </div>
                             @include('layouts.errors')
@@ -51,3 +52,4 @@
         </div>
     </div>
 @endsection
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>

@@ -11,7 +11,6 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
     <script>
       window.shared =@json([
             'signedIn' => auth()->check(),
