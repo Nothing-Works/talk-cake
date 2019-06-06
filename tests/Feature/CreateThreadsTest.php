@@ -18,9 +18,11 @@ class CreateThreadsTest extends TestCase
     {
         parent::setUp();
 
-        app()->instance(Recaptcha::class, Mockery::mock(Recaptcha::class, function (MockInterface $m) {
-            $m->shouldReceive('passes')->andReturn(true);
-        }));
+        app()->singleton(Recaptcha::class, function () {
+            return Mockery::mock(Recaptcha::class, function (MockInterface $m) {
+                $m->shouldReceive('passes')->andReturn(true);
+            });
+        });
     }
 
     public function test_a_thread_with_a_title_that_ends_in_a_number_should_generate_the_proper_slug()
