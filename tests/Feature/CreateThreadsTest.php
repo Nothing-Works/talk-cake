@@ -5,21 +5,29 @@ namespace Tests\Feature;
 use App\Activity;
 use App\Channel;
 use App\Reply;
+use App\Rules\Recaptcha;
 use App\Thread;
 use App\User;
+use Mockery;
+use Mockery\MockInterface;
 use Tests\TestCase;
 
 class CreateThreadsTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+
+        app()->instance(Recaptcha::class, Mockery::mock(Recaptcha::class, function (MockInterface $m) {
+            $m->shouldReceive('passes')->andReturn(true);
+        }));
+    }
+
     public function test_a_thread_with_a_title_that_ends_in_a_number_should_generate_the_proper_slug()
     {
-        $this->actingAs(factory(User::class)->create());
-
         factory(Thread::class)->create(['title' => 'Foo Title 24']);
 
-        $thread = factory(Thread::class)->raw(['title' => 'Foo Title 24']);
-
-        $this->post(route('threads.store'), $thread);
+        $this->publishThread(['title' => 'Foo Title 24', 'g-recaptcha-response' => 'token']);
 
         $this->assertTrue(Thread::whereSlug('foo-title-24-2')->exists());
     }
@@ -34,15 +42,11 @@ class CreateThreadsTest extends TestCase
 
     public function test_user_can_create_new_thread()
     {
-        $this->actingAs(factory(User::class)->create());
+        $this->assertEquals(0, Thread::all()->fresh()->count());
 
-        $thread = factory(Thread::class)->make();
+        $this->publishThread(['g-recaptcha-response' => 'token']);
 
-        $response = $this->post(route('threads.store'), $thread->toArray());
-
-        $this->get($response->headers->get('Location'))
-            ->assertSee($thread->title)
-            ->assertSee($thread->body);
+        $this->assertEquals(1, Thread::all()->fresh()->count());
     }
 
     public function test_unauthenticated_user_can_not_create_new_thread()
@@ -59,10 +63,10 @@ class CreateThreadsTest extends TestCase
 
         $this->assertEquals($data->fresh()->slug, 'foo-title');
 
-        $thread = factory(Thread::class)->raw(['title' => 'Foo Title']);
+        $thread = factory(Thread::class)->raw(['title' => 'Foo Title',
+            'g-recaptcha-response' => 'token', ]);
 
         $this->post(route('threads.store'), $thread);
-
         $this->assertTrue(Thread::whereSlug('foo-title-2')->exists());
     }
 
@@ -124,6 +128,14 @@ class CreateThreadsTest extends TestCase
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
 
         $this->assertEquals(0, Activity::count());
+    }
+
+    public function test_a_thread_requires_recaptcha_verification()
+    {
+        unset(app()[Recaptcha::class]);
+
+        $this->publishThread(['g-recaptcha-response' => 'test'])
+            ->assertSessionHasErrors('g-recaptcha-response');
     }
 
     protected function publishThread($overrides = [])

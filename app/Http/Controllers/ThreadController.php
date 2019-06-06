@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Filters\ThreadFilters;
+use App\Rules\Recaptcha;
 use App\Rules\SpamFree;
 use App\Thread;
 use App\Trending;
@@ -14,7 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Zttp\Zttp;
 
 class ThreadController extends Controller
 {
@@ -56,30 +56,26 @@ class ThreadController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
+     * @param Recaptcha                $recaptcha
      *
      * @return Response
-     *
-     * @throws Exception
      */
-    public function store(Request $request)
+    public function store(Request $request, Recaptcha $recaptcha)
     {
-        $response = Zttp::asFormParams()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => config('services.recaptcha.secret'),
-            'response' => $request->input('g-recaptcha-response'),
-            'remoteip' => $_SERVER['REMOTE_ADDR'],
-            ]);
-
-        if (!$response->json()['success']) {
-            throw new Exception('Recaptcha failed');
-        }
+        $request->validate([
+            'title' => ['required', new SpamFree()],
+            'body' => ['required', new SpamFree()],
+            'channel_id' => 'required|exists:channels,id',
+            'g-recaptcha-response' => ['required', $recaptcha],
+        ]);
 
         $thread = Auth::user()
             ->threads()
-            ->create($request->validate([
-                'title' => ['required', new SpamFree()],
-                'body' => ['required', new SpamFree()],
-                'channel_id' => 'required|exists:channels,id',
-            ]));
+            ->create([
+                'title' => $request->input('title'),
+                'body' => $request->input('body'),
+                'channel_id' => $request->input('channel_id'),
+            ]);
 
         return redirect($thread->path())->with('flash', 'Your thread has been published');
     }
