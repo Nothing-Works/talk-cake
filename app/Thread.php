@@ -47,6 +47,9 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereBestReplyId($value)
  * @property int $locked
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereLocked($value)
+ * @property-read int|null $activities_count
+ * @property-read int|null $replies_count
+ * @property-read int|null $subscriptions_count
  */
 class Thread extends Model
 {

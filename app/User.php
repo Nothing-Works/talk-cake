@@ -43,6 +43,10 @@ use Illuminate\Support\Facades\Storage;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereConfirmed($value)
  * @property string|null $confirmation_token
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereConfirmationToken($value)
+ * @property-read int|null $activities_count
+ * @property-read int|null $notifications_count
+ * @property-read int|null $replies_count
+ * @property-read int|null $threads_count
  */
 class User extends Authenticatable
 {

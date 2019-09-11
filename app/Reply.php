@@ -34,6 +34,7 @@ use Illuminate\Support\Collection;
  * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
  * @property mixed                                                    $is_favorited
  * @property-read mixed $is_best
+ * @property-read int|null $activities_count
  */
 class Reply extends Model
 {

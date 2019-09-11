@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Channel whereUpdatedAt($value)
+ * @property-read int|null $threads_count
  */
 class Channel extends Model
 {

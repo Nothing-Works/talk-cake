@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereUserId($value)
  * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
  * @property \Illuminate\Database\Eloquent\Model|\Eloquent            $favorited
+ * @property-read int|null $activities_count
  */
 class Favorite extends Model
 {
