@@ -80,6 +80,16 @@ class ThreadController extends Controller
         return redirect($thread->path())->with('flash', 'Your thread has been published');
     }
 
+    public function update(Channel $channel, Thread $thread, Request $request)
+    {
+        $this->authorize('update', $thread);
+
+        return tap($thread)->update($request->validate([
+            'title' => ['required', new SpamFree()],
+            'body' => ['required', new SpamFree()],
+        ]));
+    }
+
     /**
      * Display the specified resource.
      *

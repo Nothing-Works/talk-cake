@@ -32,6 +32,7 @@ Route::get('/threads/create', 'ThreadController@create')->name('threads.create')
 Route::get('/threads/{channel?}', 'ThreadController@index')->name('threads');
 Route::post('/threads', 'ThreadController@store')->middleware('must-be-confirmed')->name('threads.store');
 Route::get('/threads/{channel}/{thread}', 'ThreadController@show');
+Route::patch('/threads/{channel}/{thread}', 'ThreadController@update');
 Route::post('/replies/{reply}/favorites', 'FavoriteController@store');
 Route::delete('/replies/{reply}/favorites', 'FavoriteController@destroy');
 
