@@ -16,7 +16,8 @@ export default {
         return {
             locked: this.dataThread.locked,
             repliesCount: this.dataThread.count,
-            slug: this.dataThread.slug
+            slug: this.dataThread.slug,
+            editing: false
         }
     },
     methods: {

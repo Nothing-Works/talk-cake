@@ -26,11 +26,11 @@
         "prettier": "^1.18.2",
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.22.12",
-        "sass-loader": "^8.0.0",
         "vue": "^2.6.10",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "sass-loader": "^7.3.1",
         "tributejs": "^3.7.3"
     }
 }

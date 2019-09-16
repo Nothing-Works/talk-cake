@@ -4,30 +4,8 @@
     <thread-view inline-template :data-thread="{{$thread}}">
         <div class="container">
             <div class="columns">
-                <div class="column is-8">
-                    <div class="card has-margin-bottom-50">
-                        <header class="card-header">
-                            <p class="card-header-title">
-                                <img src="{{$thread->user->avatar_path}}" width="50" height="50"
-                                     alt="avatar">
-                                <a href="/profiles/{{$thread->user->name}}">{{$thread->user->name}}</a>&nbsp;
-                                <span>posted: </span> {{$thread->title}}
-                            </p>
-                            @can('delete',$thread)
-                                <form action="{{$thread->path()}}" method="POST">
-                                    @method('DELETE') @csrf
-                                    <button type="submit" class="card-header-icon button is-large">
-                                        Delete
-                                    </button>
-                                </form>
-                            @endcan
-                        </header>
-                        <div class="card-content">
-                            <div class="content">
-                                <p>{{$thread->body}}</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="column is-8" v-cloak>
+                    @include('threads._questions')
                     <replies-view @added="repliesCount++" @deleted="repliesCount--"></replies-view>
                 </div>
                 <div class="column is-4">
