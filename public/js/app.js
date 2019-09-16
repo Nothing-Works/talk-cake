@@ -6994,16 +6994,39 @@ __webpack_require__.r(__webpack_exports__);
     return {
       locked: this.dataThread.locked,
       repliesCount: this.dataThread.count,
+      channel: this.dataThread.channel.slug,
       slug: this.dataThread.slug,
-      editing: false
+      editing: false,
+      title: this.dataThread.title,
+      body: this.dataThread.body,
+      form: {
+        title: this.dataThread.title,
+        body: this.dataThread.body
+      }
     };
   },
   methods: {
-    toggleThread: function toggleThread() {
+    cancel: function cancel() {
+      this.form.title = this.title;
+      this.form.body = this.body;
+      this.editing = false;
+    },
+    save: function save() {
       var _this = this;
 
+      var uri = "/threads/".concat(this.channel, "/").concat(this.slug);
+      axios.patch(uri, this.form).then(function (_ref) {
+        var data = _ref.data;
+        _this.title = data.title;
+        _this.body = data.body;
+        _this.editing = false;
+      });
+    },
+    toggleThread: function toggleThread() {
+      var _this2 = this;
+
       axios[this.locked ? 'delete' : 'post']("/lock-thread/".concat(this.slug)).then(function () {
-        return _this.locked = !_this.locked;
+        return _this2.locked = !_this2.locked;
       });
     }
   }
