@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 
 /**
  * App\Thread.
@@ -22,6 +23,7 @@ use Illuminate\Support\Str;
  * @property \Illuminate\Support\Carbon|null                       $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies
  * @property \App\User                                             $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread query()
@@ -32,28 +34,40 @@ use Illuminate\Support\Str;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUserId($value)
  * @mixin \Eloquent
+ *
  * @property \App\Channel $channel
  * @property int          $channel_id
+ *
  * @method static                                                  \Illuminate\Database\Eloquent\Builder|\App\Thread whereChannelId($value)
  * @method static\Illuminate\Database\Eloquent\Builder|\App\Thread filter($filters)
+ *
  * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[]           $activities
  * @property \Illuminate\Database\Eloquent\Collection|\App\ThreadSubscription[] $subscriptions
  * @property mixed                                                              $is_subscribed
  * @property int                                                                $visits
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereVisits($value)
+ *
  * @property string $slug
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereSlug($value)
+ *
  * @property int|null $best_reply_id
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereBestReplyId($value)
+ *
  * @property int $locked
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereLocked($value)
- * @property-read int|null $activities_count
- * @property-read int|null $replies_count
- * @property-read int|null $subscriptions_count
+ *
+ * @property int|null $activities_count
+ * @property int|null $replies_count
+ * @property int|null $subscriptions_count
  */
 class Thread extends Model
 {
     use RecordsActivity;
+    use Searchable;
 
     protected $guarded = [];
 
