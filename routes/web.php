@@ -28,6 +28,7 @@ Route::post('/api/users/{user}/avatar', 'Api\UserAvatarController@store');
 Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');
 Route::get('/threads/{channel}/{thread}/replies', 'ReplyController@index');
 
+Route::get('/threads/search', 'SearchController@show');
 Route::get('/threads/create', 'ThreadController@create')->name('threads.create');
 Route::get('/threads/{channel?}', 'ThreadController@index')->name('threads');
 Route::post('/threads', 'ThreadController@store')->middleware('must-be-confirmed')->name('threads.store');
