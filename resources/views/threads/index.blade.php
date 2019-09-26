@@ -13,6 +13,19 @@
                 <div class="card">
                     <header class="card-header">
                         <div class="card-header-title">
+                            <h1>Search</h1>
+                        </div>
+                    </header>
+                    <div class="card-content">
+                        <form method="GET" action="/threads/search">
+                            <input type="text" placeholder="Search for something..." name="q" class="input has-margin-bottom-5">
+                            <button type="submit" class="button is-link">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="card">
+                    <header class="card-header">
+                        <div class="card-header-title">
                             <h1>Trending Threads</h1>
                         </div>
                     </header>

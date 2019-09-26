@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Thread;
+use App\Trending;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    public function show(Request $request)
+    public function show(Request $request, Trending $trending)
     {
-        $search = $request->query('q');
+        $threads = Thread::search($request->query('q'))->paginate(25);
 
-        return Thread::search($search)->get();
+        if ($request->expectsJson()) {
+            return $threads;
+        }
+
+        return view('threads.index', ['threads' => $threads, 'trending' => $trending->get()]);
     }
 }
