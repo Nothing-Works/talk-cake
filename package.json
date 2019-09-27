@@ -11,6 +11,7 @@
     },
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^5.11.2",
+        "algoliasearch": "^3.35.0",
         "axios": "^0.19.0",
         "bulma": "^0.7.5",
         "bulma-checkradio": "^1.1.1",
@@ -29,6 +30,7 @@
         "sass-loader": "^8.0.0",
         "tributejs": "^3.7.3",
         "vue": "^2.6.10",
+        "vue-instantsearch": "^2.5.0",
         "vue-template-compiler": "^2.6.10"
     }
 }
