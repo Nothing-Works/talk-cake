@@ -14,7 +14,7 @@
                 {{\Illuminate\Support\Str::plural('reply',$thread->replies_count)}}</a>
         </header>
         <div class="card-content">
-            <p>{{$thread->body}}</p>
+            <p>{!!$thread->body!!}</p>
 
         </div>
         <footer class="card-footer">

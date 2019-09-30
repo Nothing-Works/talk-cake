@@ -2,13 +2,13 @@
     <div v-if="signedIn">
         <div class="field">
             <div class="control">
-                <textarea
-                    id="input"
+                <wysiwyg
+                    :id="id"
                     v-model="body"
                     name="body"
-                    class="textarea"
-                    placeholder="Leave a reply"
-                ></textarea>
+                    placeholder="Have something to say?"
+                    :should-clear="completed"
+                ></wysiwyg>
             </div>
         </div>
         <div class="field">
@@ -22,6 +22,7 @@
 
 <script>
 import Tribute from 'tributejs'
+
 export default {
     name: 'NewReply',
     props: {
@@ -32,7 +33,9 @@ export default {
     },
     data() {
         return {
-            body: ''
+            body: '',
+            completed: false,
+            id: 'input'
         }
     },
 
@@ -43,7 +46,7 @@ export default {
             fillAttr: 'name',
             allowSpaces: true
         })
-        tribute.attach(document.getElementById('input'))
+        tribute.attach(document.getElementById(this.id))
     },
     methods: {
         submit() {
@@ -51,6 +54,7 @@ export default {
                 .post(this.endpoint, { body: this.body })
                 .then(({ data }) => {
                     this.body = ''
+                    this.completed = true
                     this.$emit('addedReply', data)
                 })
                 .catch(error => {
@@ -75,4 +79,5 @@ export default {
 
 <style>
 @import '~tributejs/dist/tribute.css';
+@import '~trix/dist/trix.css';
 </style>

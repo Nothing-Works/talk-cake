@@ -19,12 +19,7 @@
                     <div v-if="editing">
                         <div class="field">
                             <div class="control">
-                                <textarea
-                                    v-model="body"
-                                    aria-label="body"
-                                    class="textarea"
-                                    required
-                                ></textarea>
+                                <wysiwyg v-model="body"></wysiwyg>
                             </div>
                         </div>
                     </div>
