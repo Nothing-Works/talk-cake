@@ -23,6 +23,7 @@ use Laravel\Scout\Searchable;
  * @property \Illuminate\Support\Carbon|null                       $updated_at
  * @property \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies
  * @property \App\User                                             $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread query()
@@ -33,21 +34,32 @@ use Laravel\Scout\Searchable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUserId($value)
  * @mixin \Eloquent
+ *
  * @property \App\Channel $channel
  * @property int          $channel_id
+ *
  * @method static                                                  \Illuminate\Database\Eloquent\Builder|\App\Thread whereChannelId($value)
  * @method static\Illuminate\Database\Eloquent\Builder|\App\Thread filter($filters)
+ *
  * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[]           $activities
  * @property \Illuminate\Database\Eloquent\Collection|\App\ThreadSubscription[] $subscriptions
  * @property mixed                                                              $is_subscribed
  * @property int                                                                $visits
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereVisits($value)
+ *
  * @property string $slug
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereSlug($value)
+ *
  * @property int|null $best_reply_id
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereBestReplyId($value)
+ *
  * @property int $locked
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereLocked($value)
+ *
  * @property int|null $activities_count
  * @property int|null $replies_count
  * @property int|null $subscriptions_count
@@ -80,6 +92,11 @@ class Thread extends Model
     public function getIsSubscribedAttribute()
     {
         return (bool) $this->subscriptions()->where('user_id', Auth::id())->exists();
+    }
+
+    public function toSearchableArray()
+    {
+        return $this->toArray() + ['path' => $this->path()];
     }
 
     public function subscribe()

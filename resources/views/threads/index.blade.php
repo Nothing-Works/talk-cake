@@ -18,7 +18,7 @@
                     </header>
                     <div class="card-content">
                         <form method="GET" action="/threads/search">
-                            <input type="text" placeholder="Search for something..." name="q" class="input has-margin-bottom-5">
+                            <input type="text" placeholder="Search for something..." name="query" class="input has-margin-bottom-5">
                             <button type="submit" class="button is-link">Search</button>
                         </form>
                     </div>

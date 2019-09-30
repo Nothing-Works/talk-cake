@@ -4,6 +4,7 @@ const authorizations = require('./authorizations')
 window.Vue = require('vue')
 
 window.events = new Vue()
+import InstantSearch from 'vue-instantsearch'
 
 window.Vue.prototype.authorize = (...params) => {
     if (!window.shared.signedIn) return false
@@ -21,7 +22,9 @@ Vue.component('flash-message', require('./components/FlashMessage').default)
 Vue.component('thread-view', require('./pages/ThreadView').default)
 Vue.component('paginator-view', require('./components/PaginatorView').default)
 Vue.component('avatar-form', require('./components/AvatarForm').default)
+Vue.component('scan-view', require('./components/ScanView').default)
 
+Vue.use(InstantSearch)
 const app = new Vue({
     el: '#app'
 })

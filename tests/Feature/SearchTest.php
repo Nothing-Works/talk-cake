@@ -15,7 +15,7 @@ class SearchTest extends TestCase
         factory(Thread::class, 2)->create(['body' => "A thread with the {$search} term."]);
         do {
             sleep(.25);
-            $result = $this->getJson("/threads/search?q={$search}")->json()['data'];
+            $result = $this->getJson("/threads/search?query={$search}")->json()['data'];
         } while (empty($result));
         $this->assertCount(2, $result);
 
