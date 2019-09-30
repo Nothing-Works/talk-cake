@@ -2,7 +2,7 @@
 @section('content')
     <div class="container">
         <div class="columns is-centered">
-            <div class="column is-half">
+            <div class="column">
                 <div class="card">
                     <header class="card-header">
                         <p class="card-header-title">
@@ -19,7 +19,8 @@
                                         <select id="channel_id" name="channel_id" required>
                                             <option value="">Choose one ...</option>
                                             @foreach ($channels as $channel)
-                                                <option value="{{$channel->id}}" {{old('channel_id')==$channel->id?'selected':''}}>{{$channel->name}}</option>
+                                                <option
+                                                    value="{{$channel->id}}" {{old('channel_id')==$channel->id?'selected':''}}>{{$channel->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -34,14 +35,14 @@
                             <div class="field">
                                 <div class="control">
                                     <label class="label" for="body">Body</label>
-                                    <textarea id="body" name="body" class="textarea"
-                                              placeholder="what is in your mind" required>{{old('body')}}</textarea>
+                                    <wysiwyg name="body"></wysiwyg>
                                 </div>
                             </div>
                             <div class="field">
                                 <div class="control">
                                     <button type="submit" class="button is-link">Submit</button>
-                                    <div class="g-recaptcha" data-sitekey="6LeaNqcUAAAAAMdZa08Dx8aOPS7J-LtuayiNrFZ-"></div>
+                                    <div class="g-recaptcha"
+                                         data-sitekey="6LeaNqcUAAAAAMdZa08Dx8aOPS7J-LtuayiNrFZ-"></div>
                                 </div>
                             </div>
                             @include('layouts.errors')

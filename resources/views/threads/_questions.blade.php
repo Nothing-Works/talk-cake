@@ -6,7 +6,7 @@
     </header>
     <div class="card-content">
         <div class="content">
-            <textarea class="textarea" rows="10" v-model="form.body"></textarea>
+            <wysiwyg name="body" v-model="form.body" :value="form.body"></wysiwyg>
         </div>
     </div>
     <footer class="card-footer">
@@ -33,7 +33,7 @@
     </header>
     <div class="card-content">
         <div class="content">
-            <p v-text="body"></p>
+            <p v-html="body"></p>
         </div>
     </div>
     <footer class="card-footer" v-if="authorize('owns',dataThread)">

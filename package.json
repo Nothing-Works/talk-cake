@@ -30,6 +30,7 @@
         "sass": "^1.22.12",
         "sass-loader": "^8.0.0",
         "tributejs": "^3.7.3",
+        "trix": "^1.2.0",
         "vue": "^2.6.10",
         "vue-instantsearch": "^2.5.0",
         "vue-template-compiler": "^2.6.10"

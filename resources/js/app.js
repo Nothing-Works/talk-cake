@@ -23,6 +23,7 @@ Vue.component('thread-view', require('./pages/ThreadView').default)
 Vue.component('paginator-view', require('./components/PaginatorView').default)
 Vue.component('avatar-form', require('./components/AvatarForm').default)
 Vue.component('scan-view', require('./components/ScanView').default)
+Vue.component('wysiwyg', require('./components/Wysiwyg').default)
 
 Vue.use(InstantSearch)
 const app = new Vue({
