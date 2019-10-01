@@ -10,6 +10,7 @@ use Tests\TestCase;
 
 class ReplyTest extends TestCase
 {
+
     /**
      * @var Reply
      */
@@ -25,6 +26,12 @@ class ReplyTest extends TestCase
     public function test_it_has_a_user()
     {
         $this->assertInstanceOf(User::class, $this->reply->user);
+    }
+
+    public function test_a_reply_is_sanitized_automatically()
+    {
+        $reply = factory(Reply::class)->make(['body' => '<script>alert("andy")</script>This is ok']);
+        $this->assertEquals('This is ok', $reply->body);
     }
 
     public function test_it_has_a_thread()
@@ -69,6 +76,5 @@ class ReplyTest extends TestCase
 
         $reply->thread->update(['best_reply_id' => $reply->id]);
         $this->assertTrue($reply->fresh()->isBest());
-
     }
 }

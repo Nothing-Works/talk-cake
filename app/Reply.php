@@ -7,6 +7,7 @@ use App\Traits\RecordsActivity;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Stevebauman\Purify\Facades\Purify;
 
 /**
  * App\Reply.
@@ -33,8 +34,8 @@ use Illuminate\Support\Collection;
  * @property mixed                                                    $favorites_count
  * @property \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activities
  * @property mixed                                                    $is_favorited
- * @property-read mixed $is_best
- * @property-read int|null $activities_count
+ * @property mixed                                                    $is_best
+ * @property int|null                                                 $activities_count
  */
 class Reply extends Model
 {
@@ -84,6 +85,11 @@ class Reply extends Model
     public function wasJustPublished()
     {
         return $this->created_at->gt(Carbon::now()->subMinute());
+    }
+
+    public function getBodyAttribute($body)
+    {
+        return Purify::clean($body);
     }
 
     public function setBodyAttribute($body)

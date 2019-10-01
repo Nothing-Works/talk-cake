@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
+use Stevebauman\Purify\Facades\Purify;
 
 /**
  * App\Thread.
@@ -183,6 +184,11 @@ class Thread extends Model
     public function setBestReply(Reply $reply)
     {
         $this->update(['best_reply_id' => $reply->id]);
+    }
+
+    public function getBodyAttribute($body)
+    {
+        return Purify::clean($body);
     }
 
     /**

@@ -129,6 +129,12 @@ class ThreadTest extends TestCase
         $this->assertFalse($thread->hasUpdate());
     }
 
+    public function test_a_thread_body_is_sanitized_automatically()
+    {
+        $thread = factory(Thread::class)->make(['body' => '<script>alert("andy")</script><p>This is ok</p>']);
+        $this->assertEquals('<p>This is ok</p>', $thread->body);
+    }
+
     public function test_a_thread_may_be_locked()
     {
         $this->assertFalse($this->thread->locked);

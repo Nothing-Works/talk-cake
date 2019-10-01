@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.7.28 on 2019-09-30 22:14:43.
+ * Generated for Laravel 5.7.28 on 2019-10-01 01:38:07.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -15193,6 +15193,76 @@ namespace Barryvdh\Debugbar {
  
 }
 
+namespace Stevebauman\Purify\Facades { 
+
+    /**
+     * Class Purify
+     *
+     */ 
+    class Purify {
+        
+        /**
+         * Cleans the specified input.
+         * 
+         * If a configuration array is given, it **will not**
+         * merge your current configuration.
+         *
+         * @param array|string $input
+         * @param array|null $config
+         * @return array|string 
+         * @static 
+         */ 
+        public static function clean($input, $config = null)
+        {
+                        /** @var \Stevebauman\Purify\Purify $instance */
+                        return $instance->clean($input, $config);
+        }
+        
+        /**
+         * Sets the current purifier to
+         * the specified purifier object.
+         *
+         * @param \HTMLPurifier $purifier
+         * @return \Stevebauman\Purify\Purify 
+         * @static 
+         */ 
+        public static function setPurifier($purifier)
+        {
+                        /** @var \Stevebauman\Purify\Purify $instance */
+                        return $instance->setPurifier($purifier);
+        }
+        
+        /**
+         * Returns the HTML purifier object.
+         *
+         * @return \HTMLPurifier 
+         * @static 
+         */ 
+        public static function getPurifier()
+        {
+                        /** @var \Stevebauman\Purify\Purify $instance */
+                        return $instance->getPurifier();
+        }
+        
+        /**
+         * Returns the configuration settings for HTML Purifier.
+         * 
+         * If no configuration settings are retrieved, a default
+         * configuration schema is returned.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getSettings()
+        {
+                        /** @var \Stevebauman\Purify\Purify $instance */
+                        return $instance->getSettings();
+        }
+         
+    }
+ 
+}
+
 
 namespace  { 
 
@@ -17804,6 +17874,8 @@ namespace  {
     class View extends \Illuminate\Support\Facades\View {}
 
     class Debugbar extends \Barryvdh\Debugbar\Facade {}
+
+    class Purify extends \Stevebauman\Purify\Facades\Purify {}
  
 }
 
